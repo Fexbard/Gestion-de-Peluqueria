@@ -23,6 +23,6 @@ public class SubJobEntity {
 
     @ManyToOne
     @JoinColumn(name = "job_id")
-    JobEntity job;
+    private JobEntity job;
 
 }
