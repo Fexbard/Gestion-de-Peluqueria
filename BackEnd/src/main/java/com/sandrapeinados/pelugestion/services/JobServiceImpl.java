@@ -10,7 +10,6 @@ import com.sandrapeinados.pelugestion.persistence.repositories.IJobRepository;
 import com.sandrapeinados.pelugestion.persistence.repositories.ISubJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,8 @@ public class JobServiceImpl implements IJobService {
     private IJobRepository jobRepo;
     @Autowired
     private ISubJobRepository subJobRepo;
-    @Override
+
+   @Override
     public Job saveJob(Job job, Long id) {
         //Traer el cliente con el get clientById, ahora hago el new client asi no mas porque no tengo el metodo getclientbyid
         Customer customer = new Customer();

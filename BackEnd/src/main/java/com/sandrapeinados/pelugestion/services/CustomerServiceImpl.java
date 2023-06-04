@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements ICustomerService {
@@ -81,5 +81,57 @@ public class CustomerServiceImpl implements ICustomerService {
             customerList.add(customer);
         }
         return customerList;
+    }
+
+    @Override
+    public Customer getCustomerById(Long id) {
+        Optional<CustomerEntity> customerFound = customerRepo.findById(id);
+        if (customerFound.isPresent()) {
+            CustomerEntity customerEntity = customerFound.get();
+
+            Customer customer = new Customer();
+            customer.setId(customerEntity.getId());
+            customer.setName(customerEntity.getName());
+            customer.setSurname(customerEntity.getSurname());
+            customer.setCellphone(customerEntity.getCellphone());
+
+            List<Job> jobsList = new ArrayList<>();
+            List<JobEntity> jobsEntity = customerEntity.getJobs();
+
+            for (JobEntity jobEntity : jobsEntity) {
+                Job job = new Job();
+                job.setIdJob(jobEntity.getJobId());
+                job.setJobTitle(jobEntity.getJobTitle());
+                job.setJobDescription(jobEntity.getJobDescription());
+                job.setTotalAmount(jobEntity.getTotalAmount());
+                job.setDate(jobEntity.getDate());
+
+                List<SubJob> subJobsList = new ArrayList<>();
+                List<SubJobEntity> subJobsEntity = jobEntity.getSubJobs();
+
+                for (SubJobEntity subJobEntity : subJobsEntity) {
+                    SubJob subJob = new SubJob();
+                    subJob.setId(subJobEntity.getId());
+                    subJob.setSubJobTitle(subJobEntity.getSubJobTitle());
+                    subJob.setSubJobAmount(subJobEntity.getSubJobAmount());
+                    subJobsList.add(subJob);
+                }
+
+                job.setSubJobs(subJobsList);
+                jobsList.add(job);
+            }
+
+            customer.setJobs(jobsList);
+
+            return customer;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void deleteCustomer(Long id) {
+        CustomerEntity customerEntity = customerRepo.findById(id).orElseThrow();
+        customerRepo.deleteById(customerEntity.getId());
     }
 }
