@@ -1,9 +1,6 @@
 package com.sandrapeinados.pelugestion.persistence.entities;
 
-import com.sandrapeinados.pelugestion.models.SubJob;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,10 +28,12 @@ public class JobEntity {
     private double totalAmount;
     @Column(name = "date")
     private LocalDateTime date;
+
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL) //
     private List<SubJobEntity> subJobs;
+
     @ManyToOne
-    @JoinColumn(name = "client_id")
-    private ClientEntity clientEntity;
+    @JoinColumn(name = "customer_id")
+    private CustomerEntity customerEntity;
 
 }

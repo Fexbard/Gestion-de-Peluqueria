@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "subJob")
+@Table(name = "subJobs")
 public class SubJobEntity {
 
     @Id
@@ -25,4 +25,18 @@ public class SubJobEntity {
     @JoinColumn(name = "job_id")
     private JobEntity job;
 
+    public SubJobEntity(long id, String subJobTitle, double subJobAmount, String jobId) {
+        this.id = id;
+        this.subJobTitle = subJobTitle;
+        this.subJobAmount = subJobAmount;
+    }
+
+    @Override
+    public String toString() {
+        return "SubJobEntity{" +
+                "id=" + id +
+                ", subJobTitle='" + subJobTitle + '\'' +
+                ", subJobAmount=" + subJobAmount +
+                '}';
+    }
 }

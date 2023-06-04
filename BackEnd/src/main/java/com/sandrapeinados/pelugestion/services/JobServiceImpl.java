@@ -1,14 +1,13 @@
 package com.sandrapeinados.pelugestion.services;
 
-import com.sandrapeinados.pelugestion.models.Client;
+import com.sandrapeinados.pelugestion.models.Customer;
 import com.sandrapeinados.pelugestion.models.Job;
 import com.sandrapeinados.pelugestion.models.SubJob;
-import com.sandrapeinados.pelugestion.persistence.entities.ClientEntity;
+import com.sandrapeinados.pelugestion.persistence.entities.CustomerEntity;
 import com.sandrapeinados.pelugestion.persistence.entities.JobEntity;
 import com.sandrapeinados.pelugestion.persistence.entities.SubJobEntity;
 import com.sandrapeinados.pelugestion.persistence.repositories.IJobRepository;
 import com.sandrapeinados.pelugestion.persistence.repositories.ISubJobRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +24,10 @@ public class JobServiceImpl implements IJobService {
     @Override
     public Job saveJob(Job job, Long id) {
         //Traer el cliente con el get clientById, ahora hago el new client asi no mas porque no tengo el metodo getclientbyid
-        Client client = new Client();
-        client.setId(id);
-        ClientEntity clientEntity = new ClientEntity();
-        clientEntity.setId(client.getId());
+        Customer customer = new Customer();
+        customer.setId(id);
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setId(customer.getId());
 
         List<SubJob> list = job.getSubJobs();
         List<SubJobEntity> listSubJobsEntity = new ArrayList<>();
@@ -49,7 +48,7 @@ public class JobServiceImpl implements IJobService {
         jobToSave.setJobDescription(job.getJobDescription());
         jobToSave.setTotalAmount(totalAmount);
         jobToSave.setDate(job.getDate());
-        jobToSave.setClientEntity(clientEntity);
+        jobToSave.setCustomerEntity(customerEntity);
         //Se guarda primero el Job sin la lista de SubJobs porque necesita el Id del Job y JPA no lo está tomando
         jobRepo.save(jobToSave);
 

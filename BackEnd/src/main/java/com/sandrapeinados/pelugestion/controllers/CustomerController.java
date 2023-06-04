@@ -1,9 +1,11 @@
 package com.sandrapeinados.pelugestion.controllers;
 
-import com.sandrapeinados.pelugestion.models.Client;
+import com.sandrapeinados.pelugestion.models.Customer;
 import com.sandrapeinados.pelugestion.models.Job;
-import com.sandrapeinados.pelugestion.models.SubJob;
-import com.sandrapeinados.pelugestion.services.IClientService;
+import com.sandrapeinados.pelugestion.persistence.entities.CustomerEntity;
+import com.sandrapeinados.pelugestion.persistence.repositories.ICustomerRepository;
+import com.sandrapeinados.pelugestion.persistence.repositories.IJobRepository;
+import com.sandrapeinados.pelugestion.services.ICustomerService;
 import com.sandrapeinados.pelugestion.services.IJobService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +14,35 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/clients")
-public class ClientController {
+@RequestMapping("/customers")
+public class CustomerController {
     @Autowired
-    private IClientService clientService;
+    private ICustomerService customerService;
 
     @Autowired
     private IJobService jobService;
+    @Autowired
+    private ICustomerRepository customerRepo;
+
+    @GetMapping
+    public ResponseEntity<?> getCustomers() {
+        List<Customer> customers = customerService.getCustomers();
+        return ResponseEntity.ok(customers);
+    }
 
     @PostMapping
-    public ResponseEntity<?> saveClient(@RequestBody @Valid Client client) {
-        Client clientSaved = clientService.saveClient(client);
+    public ResponseEntity<?> saveCustomer(@RequestBody @Valid Customer customer) {
+        Customer customerSaved = customerService.saveCustomer(customer);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(clientSaved.getId())
+                .buildAndExpand(customerSaved.getId())
                 .toUri();
-        return ResponseEntity.created(location).body(client);
+        return ResponseEntity.created(location).body(customer);
     }
 
     @PostMapping("/{id}/jobs")
@@ -48,7 +57,5 @@ public class ClientController {
                 .toUri();
 
         return ResponseEntity.created(location).body(job);
-
     }
-
 }

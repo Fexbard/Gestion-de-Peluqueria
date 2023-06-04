@@ -1,9 +1,6 @@
 package com.sandrapeinados.pelugestion.persistence.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,9 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(referencedColumnName = "person_id")
 @Entity
-@Table(name = "clients")
-public class ClientEntity extends PersonEntity {
-    @OneToMany(mappedBy = "clientEntity")
+@Table(name = "customers")
+public class CustomerEntity extends PersonEntity {
+
+    @OneToMany(mappedBy = "customerEntity")
     private List<JobEntity> jobs;
 
 }
