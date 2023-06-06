@@ -1,5 +1,6 @@
 package com.sandrapeinados.pelugestion.services;
 
+import com.sandrapeinados.pelugestion.exceptions.ResourceNotFoundException;
 import com.sandrapeinados.pelugestion.models.Customer;
 import com.sandrapeinados.pelugestion.models.Job;
 import com.sandrapeinados.pelugestion.models.SubJob;
@@ -56,6 +57,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
             for (JobEntity jobEntity : jobsEntity) {
                 Job job = new Job();
+                job.setIdClient(customer.getId());
                 job.setIdJob(jobEntity.getJobId());
                 job.setJobTitle(jobEntity.getJobTitle());
                 job.setJobDescription(jobEntity.getJobDescription());
@@ -100,6 +102,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
             for (JobEntity jobEntity : jobsEntity) {
                 Job job = new Job();
+                job.setIdClient(id);
                 job.setIdJob(jobEntity.getJobId());
                 job.setJobTitle(jobEntity.getJobTitle());
                 job.setJobDescription(jobEntity.getJobDescription());
@@ -125,13 +128,18 @@ public class CustomerServiceImpl implements ICustomerService {
 
             return customer;
         } else {
-            return null;
+            throw new ResourceNotFoundException("The customer with id: "+id+" was not found");
         }
     }
 
     @Override
     public void deleteCustomer(Long id) {
-        CustomerEntity customerEntity = customerRepo.findById(id).orElseThrow();
-        customerRepo.deleteById(customerEntity.getId());
+        Optional<CustomerEntity> customerEntity = customerRepo.findById(id);
+
+        if(customerEntity.isPresent()) {
+            customerRepo.deleteById(customerEntity.get().getId());
+        } else {
+            throw new ResourceNotFoundException("Customer not fund");
+        }
     }
 }

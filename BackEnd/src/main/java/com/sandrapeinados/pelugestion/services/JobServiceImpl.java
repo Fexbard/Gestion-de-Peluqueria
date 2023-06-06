@@ -1,5 +1,6 @@
 package com.sandrapeinados.pelugestion.services;
 
+import com.sandrapeinados.pelugestion.exceptions.ResourceNotFoundException;
 import com.sandrapeinados.pelugestion.models.Customer;
 import com.sandrapeinados.pelugestion.models.Job;
 import com.sandrapeinados.pelugestion.models.SubJob;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JobServiceImpl implements IJobService {
@@ -21,11 +23,11 @@ public class JobServiceImpl implements IJobService {
     @Autowired
     private ISubJobRepository subJobRepo;
 
-   @Override
-    public Job saveJob(Job job, Long id) {
-        //Traer el cliente con el get clientById, ahora hago el new client asi no mas porque no tengo el metodo getclientbyid
+    @Override
+    public Job saveJob(Job job) {
+
         Customer customer = new Customer();
-        customer.setId(id);
+        customer.setId(job.getIdClient());
         CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setId(customer.getId());
 
@@ -33,7 +35,7 @@ public class JobServiceImpl implements IJobService {
         List<SubJobEntity> listSubJobsEntity = new ArrayList<>();
         double totalAmount = 0;
         //Convierte la lista de SubJob a SubJobEntity y va sumando los montos
-        for (SubJob s:  list){
+        for (SubJob s : list) {
             SubJobEntity subJobEntity = new SubJobEntity();
             subJobEntity.setSubJobTitle(s.getSubJobTitle());
             subJobEntity.setSubJobAmount(s.getSubJobAmount());
@@ -53,14 +55,14 @@ public class JobServiceImpl implements IJobService {
         jobRepo.save(jobToSave);
 
         //Agrega el Job a las SubJobs
-        for (SubJobEntity s:  listSubJobsEntity){
+        for (SubJobEntity s : listSubJobsEntity) {
             s.setJob(jobToSave);
         }
         //Se guarda la lista de SubJobs correctamente con el Id del Job que las vincula
         subJobRepo.saveAll(listSubJobsEntity);
 
         //Setea el Id de cada SubJob
-        for(int i = 0; i < listSubJobsEntity.size(); i++){
+        for (int i = 0; i < listSubJobsEntity.size(); i++) {
             list.get(i).setId(listSubJobsEntity.get(i).getId());
         }
 
@@ -70,4 +72,70 @@ public class JobServiceImpl implements IJobService {
         return job;
     }
 
+    @Override
+    public void deleteJob(Long id) {
+        Job job = getJobById(id);
+        jobRepo.deleteById(job.getIdJob());
+    }
+
+
+    @Override
+    public Job getJobById(Long id) {
+        Optional<JobEntity> jobFound = jobRepo.findById(id);
+
+        if (jobFound.isPresent()) {
+            Job job = new Job();
+            List<SubJob> auxilirySubJobsList = new ArrayList<>();
+
+            job.setIdClient(jobFound.get().getCustomerEntity().getId());
+            job.setIdJob(jobFound.get().getJobId());
+            job.setJobTitle(jobFound.get().getJobTitle());
+            job.setJobDescription(jobFound.get().getJobDescription());
+            job.setDate(jobFound.get().getDate());
+            job.setTotalAmount(jobFound.get().getTotalAmount());
+
+            List<SubJobEntity> subJobEntityList = jobFound.get().getSubJobs();
+            for (SubJobEntity sub : subJobEntityList) {
+                SubJob subJob = new SubJob();
+                subJob.setId(sub.getId());
+                subJob.setSubJobTitle(sub.getSubJobTitle());
+                subJob.setSubJobAmount(sub.getSubJobAmount());
+                auxilirySubJobsList.add(subJob);
+            }
+            job.setSubJobs(auxilirySubJobsList);
+            return job;
+        } else {
+            throw new ResourceNotFoundException("Job Not Found");
+        }
+    }
+
+    @Override
+    public List<Job> getAllJobs() {
+        List<JobEntity> jobEntityList = jobRepo.findAll();
+        List<Job> jobsList = new ArrayList<>();
+
+        for (JobEntity jobEntity : jobEntityList) {
+            Job job = new Job();
+            job.setIdClient(jobEntity.getCustomerEntity().getId());
+            job.setIdJob(jobEntity.getJobId());
+            job.setJobTitle(jobEntity.getJobTitle());
+            job.setJobDescription(jobEntity.getJobDescription());
+            job.setTotalAmount(jobEntity.getTotalAmount());
+            job.setDate(jobEntity.getDate());
+
+            List<SubJob> subJobsList = new ArrayList<>();
+            List<SubJobEntity> subJobsEntity = jobEntity.getSubJobs();
+
+            for (SubJobEntity subJobEntity : subJobsEntity) {
+                SubJob subJob = new SubJob();
+                subJob.setId(subJobEntity.getId());
+                subJob.setSubJobTitle(subJobEntity.getSubJobTitle());
+                subJob.setSubJobAmount(subJobEntity.getSubJobAmount());
+                subJobsList.add(subJob);
+            }
+            job.setSubJobs(subJobsList);
+            jobsList.add(job);
+        }
+        return jobsList;
+    }
 }

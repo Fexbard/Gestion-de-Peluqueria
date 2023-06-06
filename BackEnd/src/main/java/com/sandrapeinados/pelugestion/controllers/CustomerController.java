@@ -18,8 +18,6 @@ import java.util.List;
 public class CustomerController {
     @Autowired
     private ICustomerService customerService;
-    @Autowired
-    private IJobService jobService;
     @GetMapping
     public ResponseEntity<?> getCustomers() {
         List<Customer> customers = customerService.getCustomers();
@@ -49,20 +47,5 @@ public class CustomerController {
                 .toUri();
         return ResponseEntity.created(location).body(customer);
     }
-
-    @PostMapping("/{id}/jobs")
-    public ResponseEntity<?> saveJob(@PathVariable Long id, @RequestBody Job job) {
-
-        Job jobSaved = jobService.saveJob(job, id);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{idJob}")
-                .buildAndExpand(jobSaved.getIdJob())
-                .toUri();
-
-        return ResponseEntity.created(location).body(job);
-    }
-
 
 }

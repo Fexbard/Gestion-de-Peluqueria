@@ -15,6 +15,7 @@ public class Job {
 
     private List<SubJob> subJobs;
     private long idJob;
+    private long idClient;
     @NotBlank(message = "El titulo no puede estar vacío")
     private String jobTitle;
     private String jobDescription;
