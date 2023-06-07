@@ -17,4 +17,14 @@ public class CustomerEntity extends PersonEntity {
     @OneToMany(mappedBy = "customerEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JobEntity> jobs;
 
+    public CustomerEntity (Long id, String name, String surname, String cellphone){
+        super(id,name,surname,cellphone);
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerEntity{" +
+                "jobs=" + jobs +
+                "} " + super.toString();
+    }
 }

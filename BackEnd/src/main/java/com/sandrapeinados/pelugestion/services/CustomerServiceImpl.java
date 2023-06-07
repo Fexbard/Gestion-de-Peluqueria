@@ -13,6 +13,7 @@ import com.sandrapeinados.pelugestion.persistence.repositories.ISubJobRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -139,7 +140,47 @@ public class CustomerServiceImpl implements ICustomerService {
         if(customerEntity.isPresent()) {
             customerRepo.deleteById(customerEntity.get().getId());
         } else {
-            throw new ResourceNotFoundException("Customer not fund");
+            throw new ResourceNotFoundException("Customer not found");
+        }
+    }
+
+    @Override
+    public Customer updateCustomer(Customer customer) {
+        Optional<CustomerEntity> customerFound = customerRepo.findById(customer.getId());
+
+        if(customerFound.isPresent()){
+            CustomerEntity customerEntity = customerFound.get();
+            customerEntity.setName(customer.getName());
+            customerEntity.setSurname(customer.getSurname());
+            customerEntity.setCellphone(customer.getCellphone());
+            customerRepo.save(customerEntity);
+            return customer;
+        }else {
+            throw new ResourceNotFoundException("Customer not Found");
+        }
+    }
+
+    /**
+     * Obtener Customer sin su lista de Jobs.
+     * 
+     * @param id indica el Id del Customer a obtener
+     * @return Customer sin lista de Jobs
+     */
+    public Customer getCustomerDetails(Long id){
+        Optional<CustomerEntity> customerEntity = customerRepo.getOnlyDetailsCustomer(id);
+
+        if(customerEntity.isPresent()) {
+            Customer customer = new Customer();
+            customer.setId(customerEntity.get().getId());
+            customer.setName(customerEntity.get().getName());
+            customer.setSurname(customerEntity.get().getSurname());
+            customer.setCellphone(customerEntity.get().getCellphone());
+            return customer;
+        } else {
+            throw new ResourceNotFoundException("Customer not found");
         }
     }
 }
+
+
+

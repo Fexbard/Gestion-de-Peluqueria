@@ -1,9 +1,7 @@
 package com.sandrapeinados.pelugestion.controllers;
 
 import com.sandrapeinados.pelugestion.models.Customer;
-import com.sandrapeinados.pelugestion.models.Job;
 import com.sandrapeinados.pelugestion.services.ICustomerService;
-import com.sandrapeinados.pelugestion.services.IJobService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +16,7 @@ import java.util.List;
 public class CustomerController {
     @Autowired
     private ICustomerService customerService;
+
     @GetMapping
     public ResponseEntity<?> getCustomers() {
         List<Customer> customers = customerService.getCustomers();
@@ -46,6 +45,12 @@ public class CustomerController {
                 .buildAndExpand(customerSaved.getId())
                 .toUri();
         return ResponseEntity.created(location).body(customer);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer){
+        customerService.updateCustomer(customer);
+        return ResponseEntity.ok(customer);
     }
 
 }
