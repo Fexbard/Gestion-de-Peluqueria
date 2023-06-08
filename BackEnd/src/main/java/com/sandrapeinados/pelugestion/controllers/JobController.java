@@ -19,33 +19,35 @@ public class JobController {
 
     @PostMapping
     public ResponseEntity<?> saveJob(@RequestBody Job job) {
-
-        Job jobSaved = jobService.saveJob(job);
+        jobService.saveJob(job);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/{idJob}")
-                .buildAndExpand(jobSaved.getIdJob())
+                .path("/{id}")
+                .buildAndExpand(job.getIdJob())
                 .toUri();
 
         return ResponseEntity.created(location).body(job);
     }
-
     @GetMapping
     public ResponseEntity<?> getJobs(){
         List<Job> jobList = jobService.getAllJobs();
         return ResponseEntity.ok(jobList);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getJobById(@PathVariable Long id){
         Job job = jobService.getJobById(id);
         return ResponseEntity.ok(job);
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteJob(@PathVariable Long id){
         jobService.deleteJob(id);
         return ResponseEntity.noContent().build();
     }
+    @PutMapping
+    public ResponseEntity<?> updateJob(@RequestBody Job job){
+        jobService.updateJob(job);
+        return ResponseEntity.ok(job);
+    }
+
 }

@@ -29,7 +29,7 @@ public class JobEntity {
     @Column(name = "date")
     private LocalDateTime date;
 
-    @OneToMany(mappedBy = "job", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubJobEntity> subJobs;
 
     @ManyToOne

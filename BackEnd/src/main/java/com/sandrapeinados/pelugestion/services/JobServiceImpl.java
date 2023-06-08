@@ -11,6 +11,8 @@ import com.sandrapeinados.pelugestion.persistence.repositories.IJobRepository;
 import com.sandrapeinados.pelugestion.persistence.repositories.ISubJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -137,5 +139,34 @@ public class JobServiceImpl implements IJobService {
             jobsList.add(job);
         }
         return jobsList;
+    }
+
+    @Transactional
+    @Override
+    public Job updateJob(Job job) {
+        Optional<JobEntity> jobFound = jobRepo.findById(job.getIdJob());
+
+        if (jobFound.isPresent()) {
+            List<SubJobEntity> subJobsToUpdate = new ArrayList<>();
+
+            for (SubJob s : job.getSubJobs()) {
+                SubJobEntity subJobEntity = new SubJobEntity();
+                subJobEntity.setId(s.getId());
+                subJobEntity.setSubJobTitle(s.getSubJobTitle());
+                subJobEntity.setSubJobAmount(s.getSubJobAmount());
+                subJobEntity.setJob(jobFound.get());
+                subJobsToUpdate.add(subJobEntity);
+            }
+            jobFound.get().setJobTitle(job.getJobTitle());
+            jobFound.get().setJobDescription(job.getJobDescription());
+            jobFound.get().setDate(job.getDate());
+            jobFound.get().setTotalAmount(job.getTotalAmount());
+            jobFound.get().getSubJobs().clear();
+            jobFound.get().getSubJobs().addAll(subJobsToUpdate);
+            jobRepo.save(jobFound.get());
+            return job;
+        } else {
+            throw new ResourceNotFoundException("Job not found");
+        }
     }
 }

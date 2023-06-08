@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,5 +24,7 @@ public class ExpenseEntity {
     private String expenseDescription;
     @Column(name = "exp_amount")
     private double expenseAmount;
+    @Column(name = "exp_date")
+    private LocalDateTime date;
 
 }

@@ -37,12 +37,12 @@ public class CustomerController {
     }
     @PostMapping
     public ResponseEntity<?> saveCustomer(@RequestBody @Valid Customer customer) {
-        Customer customerSaved = customerService.saveCustomer(customer);
+        customerService.saveCustomer(customer);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(customerSaved.getId())
+                .buildAndExpand(customer.getId())
                 .toUri();
         return ResponseEntity.created(location).body(customer);
     }
@@ -52,5 +52,4 @@ public class CustomerController {
         customerService.updateCustomer(customer);
         return ResponseEntity.ok(customer);
     }
-
 }
