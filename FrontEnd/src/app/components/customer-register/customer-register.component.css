@@ -1,0 +1,16 @@
+.centered-card {
+    padding-top: 5%;
+    padding-bottom: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #card{
+    width: 70%;
+  }
+
+  #btnRegistrar {
+    background-color: #02887f;
+    border-color: #02887f;
+  }

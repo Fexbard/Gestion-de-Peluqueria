@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
 
@@ -13,7 +14,7 @@ export class CustomersListComponent {
   customer: Customer;
   customersList: Customer[];
 
-  constructor(private customerService: CustomerService) { }
+  constructor(private customerService: CustomerService, private router:Router) { }
 
   ngOnInit() {
     this.getCustomers();
@@ -21,9 +22,16 @@ export class CustomersListComponent {
 
   private getCustomers() {
     this.customerService.getListCustomers().subscribe(
-      customerFromBack => {
-        this.customersList = customerFromBack;
+      customerFound => {
+        this.customersList = customerFound;
       });
   }
 
+  public updateCustomer(id:Number) {
+    this.router.navigate(['clientes/actualizar-cliente',id]);
+  }
+
+  public redirectToUpdate(id:Number) {
+    this.router.navigate(['clientes/actualizar',id]);
+  }
 }
