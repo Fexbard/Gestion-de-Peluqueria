@@ -58,11 +58,10 @@
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" class="btn btn-light rounded-pill" id="editCustomer" (click)="redirectToUpdate(customerFromBD.id)"><i _ngcontent-iji-c29="" class="bi bi-pencil-square" id="iconEdit"></i></button>
                                                     <button type="button" class="btn btn-light rounded-pill" id="deleteCustomer"><i _ngcontent-iji-c29="" class="bi bi-trash" id="iconTrash"></i></button>
-                                                    <button type="button" class="btn btn-light rounded-pill" id="infoCustomer"><i _ngcontent-iji-c29="" class="bi bi-info-circle" id="iconInfo"></i></button>
+                                                    <button type="button" class="btn btn-light rounded-pill" id="infoCustomer" (click)="redirectToDetails(customerFromBD.id)"><i _ngcontent-iji-c29="" class="bi bi-info-circle" id="iconInfo"></i></button>
                                                 </div>    
                                             </td>
                                         </tr>
-                                        
                                     </tbody>
                                 </table>
                             </div>

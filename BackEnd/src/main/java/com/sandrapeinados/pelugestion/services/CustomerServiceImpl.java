@@ -1,5 +1,6 @@
 package com.sandrapeinados.pelugestion.services;
 
+import com.sandrapeinados.pelugestion.exceptions.BadRequestException;
 import com.sandrapeinados.pelugestion.exceptions.ResourceNotFoundException;
 import com.sandrapeinados.pelugestion.models.Customer;
 import com.sandrapeinados.pelugestion.models.Job;
@@ -12,6 +13,7 @@ import com.sandrapeinados.pelugestion.persistence.repositories.IJobRepository;
 import com.sandrapeinados.pelugestion.persistence.repositories.ISubJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -147,8 +149,12 @@ public class CustomerServiceImpl implements ICustomerService {
         Optional<CustomerEntity> customerFound = customerRepo.getOnlyDetailsCustomer(customer.getId());
 
         if (customerFound.isPresent()) {
-            customerRepo.updateCustomer(customer.getName(),customer.getSurname(),customer.getCellphone(), customer.getId());
-            return customer;
+            if (!customer.getName().equalsIgnoreCase("")) {
+                customerRepo.updateCustomer(customer.getName(), customer.getSurname(), customer.getCellphone(), customer.getId());
+                return customer;
+            } else {
+                throw new BadRequestException("El campo nombre no puede estar vacio");
+            }
         } else {
             throw new ResourceNotFoundException("Customer not found.");
         }

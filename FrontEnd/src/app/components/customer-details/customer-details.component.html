@@ -1,0 +1,116 @@
+<main id="main" class="main">
+   <div class="pagetitle">
+      <h1>Detalles</h1>
+      <nav>
+         <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item">Clientes</li>
+            <li class="breadcrumb-item active">Ver detalles</li>
+         </ol>
+      </nav>
+   </div>
+   <section class="section profile">
+      <div class="row align-items-top">
+         <div class="col-lg-8">
+            <div class="card">
+               <div class="card-body pt-3">
+                  <div class="tab-content pt-2">
+                     <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                        <h5 class="card-title">Detalles de cliente</h5>
+                        <div class="row">
+                           <div class="col-lg-3 col-md-4 label ">Nombre</div>
+                           <div class="col-lg-9 col-md-8">{{customer.name}}</div>
+                        </div>
+                        <div class="row">
+                           <div class="col-lg-3 col-md-4 label">Apellido</div>
+                           <div class="col-lg-9 col-md-8">{{customer.surname}}</div>
+                        </div>
+                        <div class="row">
+                           <div class="col-lg-3 col-md-4 label">Celular</div>
+                           <div class="col-lg-9 col-md-8">{{customer.cellphone}}</div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div _ngcontent-dqv-c37="" class="card">
+               <div _ngcontent-dqv-c37="" class="card-body">
+                  <h5 _ngcontent-dqv-c37="" class="card-title">Trabajos realizados a {{customer.name}}</h5>
+                  <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                     <div class="dataTable-top">
+                        <div class="dataTable-dropdown"><label><select class="dataTable-selector">
+                                 <option value="5">5</option>
+                                 <option value="10" selected="">10</option>
+                                 <option value="15">15</option>
+                                 <option value="20">20</option>
+                                 <option value="25">25</option>
+                              </select> entries per page</label></div>
+                        <div class="dataTable-search"><input class="dataTable-input" placeholder="Search..."
+                              type="text"></div>
+                     </div>
+                     <div class="dataTable-container">
+                        <table _ngcontent-dqv-c37="" class="table datatable dataTable-table">
+                           <thead _ngcontent-dqv-c37="">
+                              <tr _ngcontent-dqv-c37="">
+                                 <th _ngcontent-dqv-c37="" scope="col" data-sortable="" style="width: 38.9551%;">
+                                    <a href="#" class="dataTable-sorter">Título</a>
+                                 </th>
+                                 <th _ngcontent-dqv-c37="" scope="col" data-sortable="" style="width: 10.60118%ñ">
+                                    <a href="#" class="dataTable-sorter">Total</a>
+                                 </th>
+                                 <th _ngcontent-dqv-c37="" scope="col" data-sortable="" style="width: 29.377%;">
+                                    <a href="#" class="dataTable-sorter">Fecha</a>
+                                 </th>
+                                 <th _ngcontent-dqv-c37="" scope="col" data-sortable="" style="width: 20.8428%;">
+                                    <a href="#" class="dataTable-sorter" id="acciones">Acciones</a>
+                                 </th>
+                              </tr>
+                           </thead>
+                           <tbody _ngcontent-dqv-c37="">
+                              <tr _ngcontent-dqv-c37="" *ngFor="let job of customer.jobs">
+                                 <td _ngcontent-dqv-c37="">{{job.title}}</td>
+                                 <td _ngcontent-dqv-c37="">{{job.totalAmount}}</td>
+                                 <td _ngcontent-dqv-c37="">{{job.date}}</td>
+                                 <td _ngcontent-dqv-c37="">
+                                    <div class="d-flex justify-content-center">
+                                       <button type="button" class="btn btn-light rounded-pill" id="editCustomer"><i
+                                             _ngcontent-iji-c29="" class="bi bi-pencil-square"
+                                             id="iconEdit"></i></button>
+                                       <button type="button" class="btn btn-light rounded-pill" id="deleteCustomer"><i
+                                             _ngcontent-iji-c29="" class="bi bi-trash" id="iconTrash"></i></button>
+                                       <button type="button" class="btn btn-light rounded-pill" id="infoCustomer"><i
+                                             _ngcontent-iji-c29="" class="bi bi-info-circle" id="iconInfo"></i></button>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     <div class="dataTable-bottom">
+                        <div class="dataTable-info">Showing 1 to 5 of 5 entries</div>
+                        <nav class="dataTable-pagination">
+                           <ul class="dataTable-pagination-list"></ul>
+                        </nav>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-4">
+            <div class="card">
+               <div class="card-header">Header</div>
+               <div class="card-body">
+                  <h5 class="card-title">Card with header and footer</h5>
+                  Ut in ea error laudantium quas omnis officia. Sit sed praesentium voluptas. Corrupti inventore
+                  consequatur nisi necessitatibus modi consequuntur soluta id. Enim autem est esse natus assumenda. Non
+                  sunt dignissimos officiis expedita. Consequatur sint repellendus voluptas. Quidem sit est nulla ullam.
+                  Suscipit debitis ullam iusto dolorem animi dolorem numquam. Enim fuga ipsum dolor nulla quia ut. Rerum
+                  dolor voluptatem et deleniti libero totam numquam nobis distinctio. Sit sint aut. Consequatur rerum
+                  in.
+               </div>
+               <div class="card-footer"> Footer</div>
+            </div>
+         </div>
+      </div>
+   </section>
+</main>

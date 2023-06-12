@@ -34,4 +34,8 @@ export class CustomersListComponent {
   public redirectToUpdate(id:Number) {
     this.router.navigate(['clientes/actualizar',id]);
   }
+
+  public redirectToDetails(id:Number){
+    this.router.navigate(['clientes/detalles/',id])
+  }
 }

@@ -29,12 +29,18 @@ public class CustomerController {
         return ResponseEntity.noContent().build();
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getCustomerById(@PathVariable Long id){
         Customer customerFound = customerService.getCustomerById(id);
         return ResponseEntity.ok(customerFound);
     }
+
+    @GetMapping("/details/{id}")
+    public ResponseEntity<?> getCustomerDetails(@PathVariable Long id){
+        Customer customerFound = customerService.getCustomerDetails(id);
+        return ResponseEntity.ok(customerFound);
+    }
+
     @PostMapping
     public ResponseEntity<?> saveCustomer(@RequestBody @Valid Customer customer) {
         customerService.saveCustomer(customer);

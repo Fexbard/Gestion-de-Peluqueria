@@ -14,6 +14,7 @@ import { CustomerRegisterComponent } from './components/customer-register/custom
 import { FormsModule } from '@angular/forms';
 import { CustomerUpdateComponent } from './components/customer-update/customer-update.component';
 import { RouterModule } from '@angular/router';
+import { CustomerDetailsComponent } from './components/customer-details/customer-details.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { RouterModule } from '@angular/router';
     TablesDataComponent,
     CustomersListComponent,
     CustomerRegisterComponent,
-    CustomerUpdateComponent
+    CustomerUpdateComponent,
+    CustomerDetailsComponent
   ],
   imports: [
     BrowserModule,
