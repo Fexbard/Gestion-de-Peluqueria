@@ -2,12 +2,12 @@ import { Subjob } from "./subjob";
 
 export class Job {
 
-    id:Number;
-    title:String;
-    description:String;
+    idJob:Number;
+    jobTitle:String;
+    jobDescription:String;
     totalAmount:Number;
     date:Date;
-    subjobs: Subjob[];
+    subJobs: Subjob[];
 
     constructor(){}
 

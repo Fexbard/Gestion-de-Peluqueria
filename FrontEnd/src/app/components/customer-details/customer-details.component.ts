@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
+import { Job } from 'src/app/models/job';
 import { CustomerService } from 'src/app/services/customer.service';
+import { JobService } from 'src/app/services/job.service';
 
 @Component({
   selector: 'app-customer-details',
@@ -11,8 +13,9 @@ import { CustomerService } from 'src/app/services/customer.service';
 export class CustomerDetailsComponent {
 
   customer:Customer = new Customer();
+  job:Job = new Job;
 
-  constructor(private customerService:CustomerService, private router:Router, private activatedRoute:ActivatedRoute){}
+  constructor(private customerService:CustomerService, private jobService:JobService,private router:Router, private activatedRoute:ActivatedRoute){}
 
   ngOnInit(){
     this.customer.id=this.activatedRoute.snapshot.params['id'];
@@ -24,7 +27,6 @@ export class CustomerDetailsComponent {
       },
       error => console.log(error))
       this.getCustomer();
-      console.log(this.customer.jobs);
   }
 
   private getCustomer(){
@@ -33,6 +35,14 @@ export class CustomerDetailsComponent {
         this.customer=customerFound;
       },
       error=> console.log(error))
+  }
+
+  public viewJobDetails(id:Number){
+    this.jobService.getJobById(id).subscribe(
+      jobFound => {
+        this.job=jobFound;
+      },
+      error => console.log(error))
   }
 
 }

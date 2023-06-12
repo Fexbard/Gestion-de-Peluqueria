@@ -68,8 +68,8 @@
                            </thead>
                            <tbody _ngcontent-dqv-c37="">
                               <tr _ngcontent-dqv-c37="" *ngFor="let job of customer.jobs">
-                                 <td _ngcontent-dqv-c37="">{{job.title}}</td>
-                                 <td _ngcontent-dqv-c37="">{{job.totalAmount}}</td>
+                                 <td _ngcontent-dqv-c37="">- {{job.jobTitle}}</td>
+                                 <td _ngcontent-dqv-c37="">$ {{job.totalAmount}}</td>
                                  <td _ngcontent-dqv-c37="">{{job.date}}</td>
                                  <td _ngcontent-dqv-c37="">
                                     <div class="d-flex justify-content-center">
@@ -78,7 +78,7 @@
                                              id="iconEdit"></i></button>
                                        <button type="button" class="btn btn-light rounded-pill" id="deleteCustomer"><i
                                              _ngcontent-iji-c29="" class="bi bi-trash" id="iconTrash"></i></button>
-                                       <button type="button" class="btn btn-light rounded-pill" id="infoCustomer"><i
+                                       <button type="button" class="btn btn-light rounded-pill" id="infoCustomer" (click)="viewJobDetails(job.idJob)"><i
                                              _ngcontent-iji-c29="" class="bi bi-info-circle" id="iconInfo"></i></button>
                                     </div>
                                  </td>
@@ -98,9 +98,9 @@
          </div>
          <div class="col-lg-4">
             <div class="card">
-               <div class="card-header">Header</div>
+               <div class="card-header">Detalle de trabajo</div>
                <div class="card-body">
-                  <h5 class="card-title">Card with header and footer</h5>
+                  <h5 class="card-title">{{job.jobTitle}}</h5>
                   Ut in ea error laudantium quas omnis officia. Sit sed praesentium voluptas. Corrupti inventore
                   consequatur nisi necessitatibus modi consequuntur soluta id. Enim autem est esse natus assumenda. Non
                   sunt dignissimos officiis expedita. Consequatur sint repellendus voluptas. Quidem sit est nulla ullam.
