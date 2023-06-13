@@ -12,11 +12,11 @@ private URL = "http://localhost:8080/customers";
 
   constructor(private HttpClient : HttpClient) { }
 
-  getCustomerById(id:Number):Observable<any> {
+  public getCustomerById(id:Number):Observable<any> {
     return this.HttpClient.get(this.URL+'/'+id);
   }
 
-  getCustomerDetails(id:Number):Observable<any> {
+  public getCustomerDetails(id:Number):Observable<any> {
     return this.HttpClient.get(this.URL+'/details/'+id);
   }
 
@@ -30,6 +30,10 @@ private URL = "http://localhost:8080/customers";
 
   public updateCustomer(customer:Customer):Observable<any>{
     return this.HttpClient.put(this.URL,customer);
+  }
+
+  public deleteCustomer(id:Number):Observable<any>{
+    return this.HttpClient.delete(this.URL+'/'+id);
   }
 
 }

@@ -1,8 +1,8 @@
 export class Subjob {
 
     id:Number;
-    title:String;
-    amount:Number;
+    subJobTitle:String;
+    subJobAmount:Number;
 
     constructor(){}
 

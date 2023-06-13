@@ -5,3 +5,34 @@
     border-radius: 50rem !important;
     margin-right: 10px;
 }
+
+.subjob-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .subjob-amount {
+    display: flex;
+    align-items: center;
+  }
+  
+  .dollar-sign {
+    width: 20px;
+    text-align: right;
+    margin-right: 5px;
+  }
+  
+  .amount-value {
+    text-align: right;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .footer-amount {
+    text-align: right;
+  }

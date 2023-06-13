@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { CustomerUpdateComponent } from './components/customer-update/customer-update.component';
 import { RouterModule } from '@angular/router';
 import { CustomerDetailsComponent } from './components/customer-details/customer-details.component';
+import { JobRegisterComponent } from './components/job-register/job-register.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { CustomerDetailsComponent } from './components/customer-details/customer
     CustomersListComponent,
     CustomerRegisterComponent,
     CustomerUpdateComponent,
-    CustomerDetailsComponent
+    CustomerDetailsComponent,
+    JobRegisterComponent
   ],
   imports: [
     BrowserModule,

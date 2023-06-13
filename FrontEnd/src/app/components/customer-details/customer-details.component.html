@@ -78,8 +78,9 @@
                                              id="iconEdit"></i></button>
                                        <button type="button" class="btn btn-light rounded-pill" id="deleteCustomer"><i
                                              _ngcontent-iji-c29="" class="bi bi-trash" id="iconTrash"></i></button>
-                                       <button type="button" class="btn btn-light rounded-pill" id="infoCustomer" (click)="viewJobDetails(job.idJob)"><i
-                                             _ngcontent-iji-c29="" class="bi bi-info-circle" id="iconInfo"></i></button>
+                                       <button type="button" class="btn btn-light rounded-pill" id="infoCustomer"
+                                          (click)="viewJobDetails(job.idJob)"><i _ngcontent-iji-c29=""
+                                             class="bi bi-info-circle" id="iconInfo"></i></button>
                                     </div>
                                  </td>
                               </tr>
@@ -98,17 +99,27 @@
          </div>
          <div class="col-lg-4">
             <div class="card">
-               <div class="card-header">Detalle de trabajo</div>
+               <div class="card-header">Ver trabajo</div>
                <div class="card-body">
                   <h5 class="card-title">{{job.jobTitle}}</h5>
-                  Ut in ea error laudantium quas omnis officia. Sit sed praesentium voluptas. Corrupti inventore
-                  consequatur nisi necessitatibus modi consequuntur soluta id. Enim autem est esse natus assumenda. Non
-                  sunt dignissimos officiis expedita. Consequatur sint repellendus voluptas. Quidem sit est nulla ullam.
-                  Suscipit debitis ullam iusto dolorem animi dolorem numquam. Enim fuga ipsum dolor nulla quia ut. Rerum
-                  dolor voluptatem et deleniti libero totam numquam nobis distinctio. Sit sint aut. Consequatur rerum
-                  in.
+                  Descripción: {{job.jobDescription}}
+                  <br><br />
+                  <div *ngFor="let subJob of job.subJobs" class="subjob-container">
+                     <div class="subjob-title"> - {{subJob.subJobTitle}}</div>
+                     <div class="subjob-amount">
+                        <span class="dollar-sign">$</span>
+                        <span class="amount-value">{{subJob.subJobAmount}}</span>
+                     </div>
+                  </div>
                </div>
-               <div class="card-footer"> Footer</div>
+               <div class="card-footer">
+                  <div class="footer-content">
+                     Total:
+                     <span class="footer-amount">
+                        <h4>$ {{job.totalAmount}}</h4>
+                     </span>
+                  </div>
+               </div>
             </div>
          </div>
       </div>

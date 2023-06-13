@@ -13,7 +13,7 @@ import { JobService } from 'src/app/services/job.service';
 export class CustomerDetailsComponent {
 
   customer:Customer = new Customer();
-  job:Job = new Job;
+  job:Job = new Job();
 
   constructor(private customerService:CustomerService, private jobService:JobService,private router:Router, private activatedRoute:ActivatedRoute){}
 
