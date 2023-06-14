@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { Customer } from 'src/app/models/customer';
+import { Job } from 'src/app/models/job';
+import { Subjob } from 'src/app/models/subjob';
 
-interface Item {
-  nombre: string;
-  precio: number;
-}
 
 @Component({
   selector: 'app-job-register',
@@ -14,15 +12,35 @@ interface Item {
 export class JobRegisterComponent {
 
   customer:Customer = new Customer();
+  job:Job = new Job();
+  items: Subjob[] = [];
+  
 
-  items: Item[] = [];
-
-  agregarItem(): void {
-    this.items.push({ nombre: '', precio: 0 });
+  agregarItem() {
+    this.items.push({ subJobTitle: '', subJobAmount: 0 });
   }
 
-  eliminarItem(index: number): void {
+  eliminarItem(index: number) {
     this.items.splice(index, 1);
+    this.calcularTotal();
   }
 
+  calcularTotal(): number {
+    let total = 0;
+    for (let item of this.items) {
+      total += item.subJobAmount;
+    }
+    this.job.totalAmount = total;
+    return total;
+  }
+
+  borrarCero(item: any) {
+    if (item.subJobAmount === 0) {
+      item.subJobAmount = null;
+    }
+  }
+//Continuar con este metodo, falta buscar cliente para saber el id
+  addJob(){
+    this.job.subJobs=this.items;
+  }
 }
