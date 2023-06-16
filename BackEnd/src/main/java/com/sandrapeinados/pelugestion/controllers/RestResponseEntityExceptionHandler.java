@@ -2,6 +2,7 @@ package com.sandrapeinados.pelugestion.controllers;
 
 import com.sandrapeinados.pelugestion.exceptions.BadRequestException;
 import com.sandrapeinados.pelugestion.exceptions.ErrorResponse;
+import com.sandrapeinados.pelugestion.exceptions.NullPointerException;
 import com.sandrapeinados.pelugestion.exceptions.ResourceNotFoundException;
 import com.sandrapeinados.pelugestion.models.Customer;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<Object> handlerResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
         return new ResponseEntity<>(new ErrorResponse("Resource Not Found", ex.getMessage(), LocalDateTime.now()),
                 HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<Object> handlerResourceNotFoundException(java.lang.NullPointerException ex, WebRequest request) {
+        return new ResponseEntity<>(new ErrorResponse("Resource Not Found", ex.getMessage(), LocalDateTime.now()),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

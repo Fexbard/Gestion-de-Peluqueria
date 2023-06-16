@@ -27,7 +27,7 @@
                                             <option value="25">25</option>
                                         </select> entries per page</label></div>
                                 <div class="dataTable-search"><input class="dataTable-input" placeholder="Search..."
-                                        type="text"></div>
+                                        type="text" [(ngModel)]="nameCustomerToSearch" (keyup.enter)="searchCustomerByName()" (blur)="handleBlur()"></div>
                             </div>
                             <div class="dataTable-container">
                                 <table _ngcontent-dqv-c37="" class="table datatable dataTable-table">
@@ -58,6 +58,7 @@
                                                 <div class="d-flex justify-content-center">
                                                     <button type="button" class="btn btn-light rounded-pill" id="editCustomer" (click)="redirectToUpdate(customerFromBD.id)"><i _ngcontent-iji-c29="" class="bi bi-pencil-square" id="iconEdit"></i></button>
                                                     <button type="button" class="btn btn-light rounded-pill" id="deleteCustomer" (click)="deleteCustomer(customerFromBD.id)"><i _ngcontent-iji-c29="" class="bi bi-trash" id="iconTrash"></i></button>
+                                                    <button type="button" class="btn btn-light rounded-pill" id="addJob" (click)="redirectToAddJob(customerFromBD.id)"><i _ngcontent-iji-c29="" class="bi bi-file-earmark-plus" id="iconAddJob"></i></button>
                                                     <button type="button" class="btn btn-light rounded-pill" id="infoCustomer" (click)="redirectToDetails(customerFromBD.id)"><i _ngcontent-iji-c29="" class="bi bi-info-circle" id="iconInfo"></i></button>
                                                 </div>    
                                             </td>

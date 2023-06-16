@@ -23,4 +23,6 @@ public interface ICustomerRepository extends JpaRepository<CustomerEntity, Long>
     @Query(value = "Update people Set name =?1, surname=?2, cellphone=?3 Where person_id =?4", nativeQuery = true)
     void updateCustomer(String name, String surname, String cellphone, Long id);
 
+    @Query("SELECT new com.sandrapeinados.pelugestion.persistence.entities.CustomerEntity(c.id, c.name, c.surname, c.cellphone) FROM CustomerEntity c WHERE UPPER(c.name) LIKE ?1")
+    List<CustomerEntity> getCustomersByName(String name);
 }

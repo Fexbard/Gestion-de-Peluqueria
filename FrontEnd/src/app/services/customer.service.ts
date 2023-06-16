@@ -16,6 +16,10 @@ private URL = "http://localhost:8080/customers";
     return this.HttpClient.get(this.URL+'/'+id);
   }
 
+  public getCustomerByName(name:String):Observable<any>{
+    return this.HttpClient.get(this.URL+'/find?name='+name)
+  }
+
   public getCustomerDetails(id:Number):Observable<any> {
     return this.HttpClient.get(this.URL+'/details/'+id);
   }

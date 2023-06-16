@@ -16,6 +16,7 @@ import { CustomerUpdateComponent } from './components/customer-update/customer-u
 import { RouterModule } from '@angular/router';
 import { CustomerDetailsComponent } from './components/customer-details/customer-details.component';
 import { JobRegisterComponent } from './components/job-register/job-register.component';
+import { JobsListComponent } from './components/jobs-list/jobs-list.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { JobRegisterComponent } from './components/job-register/job-register.com
     CustomerRegisterComponent,
     CustomerUpdateComponent,
     CustomerDetailsComponent,
-    JobRegisterComponent
+    JobRegisterComponent,
+    JobsListComponent
   ],
   imports: [
     BrowserModule,

@@ -14,6 +14,7 @@ export class CustomersListComponent {
   index: number = 0; //Indice en la izquiera de la tabla
   customer: Customer;
   customersList: Customer[];
+  nameCustomerToSearch:String;
 
   constructor(private customerService: CustomerService, private router: Router) { }
 
@@ -52,13 +53,24 @@ export class CustomersListComponent {
         
       }
     })
-    
-    
-
   }
 
-  confirmDelete(id:Number): void {
-    
+  public searchCustomerByName(){
+    if (this.nameCustomerToSearch) {
+      this.customerService.getCustomerByName(this.nameCustomerToSearch).subscribe(
+        customerFound =>{
+          this.customersList = customerFound;
+        }
+      )
+    } else {
+      this.getCustomers(); // Obtiene la lista completa de clientes
+    }
+  }
+
+  public handleBlur(): void {
+    if (!this.nameCustomerToSearch) {
+      this.getCustomers(); // Obtiene la lista completa de clientes si el campo de búsqueda está vacío
+    }
   }
 
   public updateCustomer(id: Number) {
@@ -71,5 +83,9 @@ export class CustomersListComponent {
 
   public redirectToDetails(id: Number) {
     this.router.navigate(['clientes/detalles/', id])
+  }
+
+  public redirectToAddJob(id: Number) {
+    this.router.navigate(['clientes',id,'agregar-trabajo'])
   }
 }

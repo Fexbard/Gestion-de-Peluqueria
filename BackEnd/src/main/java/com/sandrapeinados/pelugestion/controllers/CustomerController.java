@@ -16,6 +16,11 @@ public class CustomerController {
     @Autowired
     private ICustomerService customerService;
 
+    @GetMapping("/find")
+    public ResponseEntity<?> getCustomersByName(@RequestParam String name) {
+        List<Customer> customers = customerService.getCustomersByName(name);
+        return ResponseEntity.ok(customers);
+    }
     @GetMapping
     public ResponseEntity<?> getCustomers() {
         List<Customer> customers = customerService.getCustomers();

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Job } from '../models/job';
 
 @Injectable({
   providedIn: 'root'
@@ -13,5 +14,9 @@ export class JobService {
 
   getJobById(id:Number):Observable<any>{
     return this.httpClient.get(this.URL+"/"+id);
+  }
+
+  saveJob(job:Job):Observable<any>{
+    return this.httpClient.post(this.URL,job);
   }
 }

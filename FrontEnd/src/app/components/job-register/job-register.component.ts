@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { format } from 'date-fns';
 import { Customer } from 'src/app/models/customer';
 import { Job } from 'src/app/models/job';
 import { Subjob } from 'src/app/models/subjob';
+import { JobService } from 'src/app/services/job.service';
 
 
 @Component({
@@ -14,6 +17,11 @@ export class JobRegisterComponent {
   customer:Customer = new Customer();
   job:Job = new Job();
   items: Subjob[] = [];
+
+  constructor(
+    private jobService:JobService, 
+    private activatedRoute:ActivatedRoute, 
+    private router:Router){}
   
 
   agregarItem() {
@@ -39,8 +47,15 @@ export class JobRegisterComponent {
       item.subJobAmount = null;
     }
   }
-//Continuar con este metodo, falta buscar cliente para saber el id
+
   addJob(){
+    this.job.idClient=this.activatedRoute.snapshot.params['id'];
     this.job.subJobs=this.items;
+    const partesFecha = this.job.date.split('-');
+    this.job.date = partesFecha[2] + '-' + partesFecha[1] + '-' + partesFecha[0]+' 00:00:00';
+    this.jobService.saveJob(this.job).subscribe(
+      response => {console.log("Se registró correctamente el trabajo al cliente", response)},
+      error => {console.log(error)})
+    this.router.navigate(['clientes']);
   }
 }

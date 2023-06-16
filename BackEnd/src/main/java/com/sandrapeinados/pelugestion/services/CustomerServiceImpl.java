@@ -14,6 +14,7 @@ import com.sandrapeinados.pelugestion.persistence.repositories.ISubJobRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,9 +26,10 @@ public class CustomerServiceImpl implements ICustomerService {
     private ICustomerRepository customerRepo;
     @Autowired
     private IJobRepository jobRepo;
-
     @Autowired
     ISubJobRepository subJobRepo;
+    String fechaPatron = "dd-MM-yyyy HH:mm:ss";
+    DateTimeFormatter formateador = DateTimeFormatter.ofPattern(fechaPatron);
 
     @Override
     public Customer saveCustomer(Customer customer) {
@@ -63,7 +65,7 @@ public class CustomerServiceImpl implements ICustomerService {
                 job.setJobTitle(jobEntity.getJobTitle());
                 job.setJobDescription(jobEntity.getJobDescription());
                 job.setTotalAmount(jobEntity.getTotalAmount());
-                job.setDate(jobEntity.getDate());
+                job.setDate(jobEntity.getDate().format(formateador));
 
                 List<SubJob> subJobsList = new ArrayList<>();
                 List<SubJobEntity> subJobsEntity = jobEntity.getSubJobs();
@@ -108,7 +110,7 @@ public class CustomerServiceImpl implements ICustomerService {
                 job.setJobTitle(jobEntity.getJobTitle());
                 job.setJobDescription(jobEntity.getJobDescription());
                 job.setTotalAmount(jobEntity.getTotalAmount());
-                job.setDate(jobEntity.getDate());
+                job.setDate(jobEntity.getDate().format(formateador));
 
                 List<SubJob> subJobsList = new ArrayList<>();
                 List<SubJobEntity> subJobsEntity = jobEntity.getSubJobs();
@@ -179,6 +181,24 @@ public class CustomerServiceImpl implements ICustomerService {
         } else {
             throw new ResourceNotFoundException("Customer not found");
         }
+    }
+
+    @Override
+    public List<Customer> getCustomersByName(String name) {
+        String nameToFind = "%"+name.trim().toUpperCase()+"%";
+        List<CustomerEntity> customersFounds = customerRepo.getCustomersByName(nameToFind);
+
+        List<Customer> customerList = new ArrayList<>();
+
+        for (CustomerEntity customerEntity : customersFounds) {
+            Customer customer = new Customer();
+            customer.setId(customerEntity.getId());
+            customer.setName(customerEntity.getName());
+            customer.setSurname(customerEntity.getSurname());
+            customer.setCellphone(customerEntity.getCellphone());
+            customerList.add(customer);
+        }
+        return customerList;
     }
 }
 

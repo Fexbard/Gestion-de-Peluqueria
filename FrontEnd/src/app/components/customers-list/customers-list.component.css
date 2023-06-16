@@ -22,6 +22,14 @@
     margin-right: 10px;
 }
 
+#addJob {
+    color: rgb(255, 255, 255);
+    background-color: #00e339;
+    border-color: #00e339;
+    border-radius: 50rem !important;
+    margin-right: 10px;
+}
+
 #acciones {
     text-align: center;
 }

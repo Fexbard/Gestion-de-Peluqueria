@@ -12,17 +12,17 @@
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">+ Trabajo Nuevo</h5>
-      <form class="row g-3">
+      <form class="row g-3" #formAddJob="ngForm">
         <div class="col-md-9">
           <div class="form-floating">
-            <input type="text" class="form-control" id="floatingtitle" placeholder="Titulo" [(ngModel)]="job.jobTitle" name="jobTitle">
+            <input type="text" class="form-control" id="floatingtitle" placeholder="Titulo" [(ngModel)]="job.jobTitle" name="jobTitle" required="">
             <label for="floatingtitle">Titulo</label>
           </div>
         </div>
         <div class="col-md-3">
           <div class="row mb-3">
             <div class="col-sm-12">
-              <input type="date" class="form-control" [(ngModel)]="job.date" name="jobDate">
+              <input type="date" class="form-control" [(ngModel)]="job.date" name="jobDate" required="">
             </div>
           </div>
         </div>
@@ -40,14 +40,14 @@
                 <div class="col-md-6">
                   <div class="form-floating">
                     <input type="text" class="form-control" [(ngModel)]="item.subJobTitle" name="subJobTitle{{i}}"
-                      placeholder="Nombre del producto" />
+                      placeholder="Nombre del producto" required=""/>
                     <label for="floatingProductName">Detalle {{ i + 1 }}</label>
                   </div>
                 </div>
                 <div class="col-md-6 d-flex align-items-center">
                   <div class="form-floating me-2">
                     <input type="number" class="form-control" [(ngModel)]="item.subJobAmount" name="subJobAmount{{i}}"
-                      placeholder="Precio" (focus)="borrarCero(item)" />
+                      placeholder="Precio" (focus)="borrarCero(item)" required=""/>
                     <label for="floatingProductPrice">Precio</label>
                   </div>
                   <button (click)="eliminarItem(i)" class="btn btn-danger">Eliminar</button>
@@ -75,7 +75,7 @@
           </div>
         </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-primary" (click)="addJob()">Submit</button>
+          <button type="submit" class="btn btn-primary" [disabled]="formAddJob.invalid" (click)="addJob()">Submit</button>
           <button type="reset" class="btn btn-secondary">Reset</button>
         </div>
       </form>
