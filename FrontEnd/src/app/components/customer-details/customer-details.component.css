@@ -1,10 +1,28 @@
-#jobsButton {
-    color: rgb(255, 255, 255);
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-    border-radius: 50rem !important;
-    margin-right: 10px;
+#editCustomer {
+  color: rgb(255, 255, 255);
+  background-color: #ffc107;
+  border-color: #ffc107;
+  border-radius: 50rem !important;
+  margin-right: 10px;
 }
+
+#deleteJob {
+  color: rgb(255, 255, 255);
+  background-color: #dc3545;
+  border-color: #dc3545;
+  border-radius: 50rem !important;
+  margin-right: 10px;
+}
+
+#infoJob {
+  color: rgb(255, 255, 255);
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  border-radius: 50rem !important;
+  margin-right: 10px;
+}
+
+
 
 .subjob-container {
     display: flex;

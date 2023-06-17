@@ -7,7 +7,7 @@ export class Job {
     jobTitle:String;
     jobDescription:String;
     totalAmount:number = 0;
-    date:String;
+    date:string;
     subJobs: Subjob[];
 
     constructor(){}

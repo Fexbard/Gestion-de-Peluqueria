@@ -17,6 +17,8 @@ import { RouterModule } from '@angular/router';
 import { CustomerDetailsComponent } from './components/customer-details/customer-details.component';
 import { JobRegisterComponent } from './components/job-register/job-register.component';
 import { JobsListComponent } from './components/jobs-list/jobs-list.component';
+import { JobUpdateComponent } from './components/job-update/job-update.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -31,14 +33,16 @@ import { JobsListComponent } from './components/jobs-list/jobs-list.component';
     CustomerUpdateComponent,
     CustomerDetailsComponent,
     JobRegisterComponent,
-    JobsListComponent
+    JobsListComponent,
+    JobUpdateComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

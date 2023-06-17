@@ -30,6 +30,8 @@
                            <div class="col-lg-9 col-md-8">{{customer.cellphone}}</div>
                         </div>
                      </div>
+                     <button type="button" class="btn btn-light rounded-pill" id="editCustomer" (click)="redirectToUpdate(customer.id)"><i _ngcontent-iji-c29="" class="bi bi-pencil-square" id="iconEdit"></i>Editar</button>
+
                   </div>
                </div>
             </div>
@@ -73,12 +75,12 @@
                                  <td _ngcontent-dqv-c37="">{{job.date}}</td>
                                  <td _ngcontent-dqv-c37="">
                                     <div class="d-flex justify-content-center">
-                                       <button type="button" class="btn btn-light rounded-pill" id="editCustomer"><i
+                                       <button type="button" class="btn btn-light rounded-pill" id="editCustomer" (click)="redirectToUpdateJob(job.idJob)"><i
                                              _ngcontent-iji-c29="" class="bi bi-pencil-square"
                                              id="iconEdit"></i></button>
-                                       <button type="button" class="btn btn-light rounded-pill" id="deleteCustomer"><i
-                                             _ngcontent-iji-c29="" class="bi bi-trash" id="iconTrash"></i></button>
-                                       <button type="button" class="btn btn-light rounded-pill" id="infoCustomer"
+                                       <button type="button" class="btn btn-light rounded-pill" id="deleteJob"><i
+                                             _ngcontent-iji-c29="" class="bi bi-trash" id="iconTrash" (click)="deleteJob(job.idJob)"></i></button>
+                                       <button type="button" class="btn btn-light rounded-pill" id="infoJob"
                                           (click)="viewJobDetails(job.idJob)"><i _ngcontent-iji-c29=""
                                              class="bi bi-info-circle" id="iconInfo"></i></button>
                                     </div>

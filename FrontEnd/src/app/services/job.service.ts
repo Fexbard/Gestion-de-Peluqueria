@@ -19,4 +19,12 @@ export class JobService {
   saveJob(job:Job):Observable<any>{
     return this.httpClient.post(this.URL,job);
   }
+
+  updateJob(job:Job):Observable<any>{
+    return this.httpClient.put(this.URL,job);
+  }
+
+  deleteJob(id:Number):Observable<any>{
+    return this.httpClient.delete(this.URL+'/'+id);
+  }
 }

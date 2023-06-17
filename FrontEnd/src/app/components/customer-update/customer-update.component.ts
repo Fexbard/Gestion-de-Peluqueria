@@ -33,6 +33,6 @@ export class CustomerUpdateComponent {
       error => {
         console.error("Ocurrió un error al actualizar el cliente.", error);
       }); 
-      this.router.navigate(['clientes']);
+      this.router.navigate(['clientes/detalles/'+this.customer.id]);
   }
 }
