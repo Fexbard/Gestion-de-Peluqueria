@@ -28,7 +28,6 @@ public class JobEntity {
     private double totalAmount;
     @Column(name = "date")
     private LocalDateTime date;
-
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubJobEntity> subJobs;
 

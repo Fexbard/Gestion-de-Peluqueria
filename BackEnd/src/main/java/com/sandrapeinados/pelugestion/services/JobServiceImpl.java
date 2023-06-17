@@ -11,6 +11,9 @@ import com.sandrapeinados.pelugestion.persistence.entities.SubJobEntity;
 import com.sandrapeinados.pelugestion.persistence.repositories.IJobRepository;
 import com.sandrapeinados.pelugestion.persistence.repositories.ISubJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -182,5 +185,34 @@ public class JobServiceImpl implements IJobService {
         } else {
             throw new ResourceNotFoundException("Job not found");
         }
+    }
+
+    @Override
+    public Page<Job> getJobsPaged(Pageable pageable) {
+        Page<JobEntity> jobsFounds = jobRepo.findAll(pageable);
+        List<Job> jobs = new ArrayList<>();
+        for (JobEntity jobEntity : jobsFounds.getContent()) {
+            Job job = new Job();
+            job.setIdClient(jobEntity.getCustomerEntity().getId());
+            job.setIdJob(jobEntity.getJobId());
+            job.setJobTitle(jobEntity.getJobTitle());
+            job.setJobDescription(jobEntity.getJobDescription());
+            job.setTotalAmount(jobEntity.getTotalAmount());
+            job.setDate(jobEntity.getDate().format(formateador));
+
+            List<SubJob> subJobsList = new ArrayList<>();
+            List<SubJobEntity> subJobsEntity = jobEntity.getSubJobs();
+
+            for (SubJobEntity subJobEntity : subJobsEntity) {
+                SubJob subJob = new SubJob();
+                subJob.setId(subJobEntity.getId());
+                subJob.setSubJobTitle(subJobEntity.getSubJobTitle());
+                subJob.setSubJobAmount(subJobEntity.getSubJobAmount());
+                subJobsList.add(subJob);
+            }
+            job.setSubJobs(subJobsList);
+            jobs.add(job);
+        }
+        return new PageImpl<>(jobs, jobsFounds.getPageable(), jobsFounds.getTotalElements());
     }
 }

@@ -3,6 +3,10 @@ package com.sandrapeinados.pelugestion.controllers;
 import com.sandrapeinados.pelugestion.models.Job;
 import com.sandrapeinados.pelugestion.services.IJobService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -34,6 +38,15 @@ public class JobController {
         List<Job> jobList = jobService.getAllJobs();
         return ResponseEntity.ok(jobList);
     }
+
+    @GetMapping("/view")
+    public ResponseEntity<?> getJobsPaged(@RequestParam int page, @RequestParam int size, @RequestParam String by) {
+        Sort sort = Sort.by(by).ascending();
+        Pageable pageable = PageRequest.of(page,size,sort);
+        Page<Job> jobsList = jobService.getJobsPaged(pageable);
+        return  ResponseEntity.ok(jobsList);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getJobById(@PathVariable Long id){
         Job job = jobService.getJobById(id);

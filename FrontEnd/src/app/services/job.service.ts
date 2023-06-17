@@ -27,4 +27,8 @@ export class JobService {
   deleteJob(id:Number):Observable<any>{
     return this.httpClient.delete(this.URL+'/'+id);
   }
+
+  getJobsOrderByDate(page:Number,size:Number,sort:String):Observable<any>{
+    return this.httpClient.get(this.URL+'/view?page='+page+'/&size='+size+'%by='+sort);
+  }
 }
