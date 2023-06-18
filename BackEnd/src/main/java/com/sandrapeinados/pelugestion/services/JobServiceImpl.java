@@ -1,5 +1,6 @@
 package com.sandrapeinados.pelugestion.services;
 
+import com.sandrapeinados.pelugestion.exceptions.BadRequestException;
 import com.sandrapeinados.pelugestion.exceptions.NullPointerException;
 import com.sandrapeinados.pelugestion.exceptions.ResourceNotFoundException;
 import com.sandrapeinados.pelugestion.models.Customer;
@@ -11,18 +12,14 @@ import com.sandrapeinados.pelugestion.persistence.entities.SubJobEntity;
 import com.sandrapeinados.pelugestion.persistence.repositories.IJobRepository;
 import com.sandrapeinados.pelugestion.persistence.repositories.ISubJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class JobServiceImpl implements IJobService {
@@ -38,7 +35,7 @@ public class JobServiceImpl implements IJobService {
     @Override
     public Job saveJob(Job job) {
 
-        if(Objects.nonNull(job.getIdClient()) && Objects.nonNull(job.getJobTitle()) &&
+        if (Objects.nonNull(job.getIdClient()) && Objects.nonNull(job.getJobTitle()) &&
                 Objects.nonNull(job.getDate()) && Objects.nonNull(job.getTotalAmount())) {
             Customer customer = new Customer();
             customer.setId(job.getIdClient());
@@ -214,5 +211,49 @@ public class JobServiceImpl implements IJobService {
             jobs.add(job);
         }
         return new PageImpl<>(jobs, jobsFounds.getPageable(), jobsFounds.getTotalElements());
+    }
+
+    @Override
+    public Page<Job> findJobsBetweenDates(String from, String to, int page, int size) {
+
+        LocalDateTime findFrom = LocalDateTime.parse(from, formateador);
+        LocalDateTime findTo = LocalDateTime.parse(to, formateador);
+        LocalDate fromDate = findFrom.toLocalDate();
+        LocalDate toDate = findTo.toLocalDate();
+
+        Sort sort = Sort.by("date").ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        if (fromDate.isBefore(toDate) || fromDate.equals(toDate)) {
+            Page<JobEntity> jobsFounds = jobRepo.findJobsBetweenDates(findFrom, findTo, pageable);
+            List<Job> jobs = new ArrayList<>();
+            for (JobEntity jobEntity : jobsFounds.getContent()) {
+                Job job = new Job();
+                job.setIdClient(jobEntity.getCustomerEntity().getId());
+                job.setIdJob(jobEntity.getJobId());
+                job.setJobTitle(jobEntity.getJobTitle());
+                job.setJobDescription(jobEntity.getJobDescription());
+                job.setTotalAmount(jobEntity.getTotalAmount());
+                job.setDate(jobEntity.getDate().format(formateador));
+
+                List<SubJob> subJobsList = new ArrayList<>();
+                List<SubJobEntity> subJobsEntity = jobEntity.getSubJobs();
+
+                for (SubJobEntity subJobEntity : subJobsEntity) {
+                    SubJob subJob = new SubJob();
+                    subJob.setId(subJobEntity.getId());
+                    subJob.setSubJobTitle(subJobEntity.getSubJobTitle());
+                    subJob.setSubJobAmount(subJobEntity.getSubJobAmount());
+                    subJobsList.add(subJob);
+                }
+                job.setSubJobs(subJobsList);
+                jobs.add(job);
+            }
+            return new PageImpl<>(jobs, jobsFounds.getPageable(), jobsFounds.getTotalElements());
+        } else {
+            throw new BadRequestException("The 'From' date cannot be greater than the 'To' date.");
+        }
+
+
     }
 }

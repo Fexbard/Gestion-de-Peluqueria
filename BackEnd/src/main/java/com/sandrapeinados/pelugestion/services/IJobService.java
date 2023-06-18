@@ -15,4 +15,5 @@ public interface IJobService {
     List<Job> getAllJobs();
     Job updateJob(Job job);
     Page<Job> getJobsPaged(Pageable pageable);
+    Page<Job> findJobsBetweenDates(String desde, String hasta, int page, int size);
 }

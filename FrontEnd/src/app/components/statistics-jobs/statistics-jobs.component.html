@@ -1,0 +1,133 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Detalles</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+                <li class="breadcrumb-item">Estadísticas</li>
+                <li class="breadcrumb-item active">Ver trabajos</li>
+            </ol>
+        </nav>
+    </div>
+    <section class="section profile">
+        <div class="row align-items-top">
+            <div _ngcontent-dqv-c37="" class="card">
+                <div _ngcontent-dqv-c37="" class="card-body">
+                    <h5 _ngcontent-dqv-c37="" class="card-title">Ver trabajos desde:
+                        <div class="col-md-2">
+                            <input type="date" class="form-control" [(ngModel)]="dateFrom" name="dateFrom" required="">
+                        </div>hasta: <div class="col-md-2">
+                            <input type="date" class="form-control" [(ngModel)]="dateTo" name="dateTo" required="">
+                        </div>
+                        <button type="submit" class="btn btn-primary" (click)="getJobsByDates()">Submit</button>
+
+                    </h5>
+                    <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                        <div class="dataTable-top">
+                            <div class="dataTable-dropdown"><label><select class="dataTable-selector" [(ngModel)]="size"
+                                        name="size">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                        <option value="25">25</option>
+                                    </select> Datos por página</label></div>
+                        </div>
+                        <div class="dataTable-container">
+                            <table _ngcontent-dqv-c37="" class="table datatable dataTable-table">
+                                <thead _ngcontent-dqv-c37="">
+                                    <tr _ngcontent-dqv-c37="">
+                                        <th _ngcontent-dqv-c37="" scope="col" data-sortable="" style="width: 38.9551%;">
+                                            <a href="#" class="dataTable-sorter">Título</a>
+                                        </th>
+                                        <th _ngcontent-dqv-c37="" scope="col" data-sortable=""
+                                            style="width: 10.60118%ñ">
+                                            <a href="#" class="dataTable-sorter">Total</a>
+                                        </th>
+                                        <th _ngcontent-dqv-c37="" scope="col" data-sortable="" style="width: 10;">
+                                            <a href="#" class="dataTable-sorter">Fecha</a>
+                                        </th>
+                                        <th _ngcontent-dqv-c37="" scope="col" data-sortable="" style="width: 19;">
+                                            <a href="#" class="dataTable-sorter">Cliente</a>
+                                        </th>
+                                        <th _ngcontent-dqv-c37="" scope="col" data-sortable="" style="width: 20.8428%;">
+                                            <a href="#" class="dataTable-sorter" id="acciones">Acciones</a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody _ngcontent-dqv-c37="">
+                                    <tr _ngcontent-dqv-c37="" *ngFor="let job of jobsList">
+                                        <td _ngcontent-dqv-c37="">- {{job.jobTitle}}</td>
+                                        <td _ngcontent-dqv-c37="">$ {{job.totalAmount}}</td>
+                                        <td _ngcontent-dqv-c37="">{{job.date}}</td>
+                                        <td _ngcontent-dqv-c37="">{{job.idClient}}</td>
+                                        <td _ngcontent-dqv-c37="">
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-light rounded-pill" id="infoJob"
+                                                    (click)="viewJobDetails(job.idJob)"><i _ngcontent-iji-c29=""
+                                                        class="bi bi-info-circle" id="iconInfo"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <nav aria-label="...">
+                              <ul class="pagination">
+                                <li class="page-item disabled">
+                                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                </li>
+                                <li class="page-item" [ngClass]="{ 'active': isFirstPage }">
+                                  <a class="page-link" (click)="goToPage(1)">1</a>
+                                </li>
+                                <li class="page-item">
+                                  <a class="page-link" href="#">2</a>
+                                </li>
+                                <li class="page-item">
+                                  <a class="page-link" href="#">3</a>
+                                </li>
+                                <li class="page-item">
+                                  <a class="page-link" href="#">Next</a>
+                                </li>
+                              </ul>
+                            </nav>
+                          </div>
+                          
+                        <div class="dataTable-bottom">
+                            <div class="dataTable-info">Mostrando 1 de 5 páginas</div>
+                            <nav class="dataTable-pagination">
+                                <ul class="dataTable-pagination-list"></ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">Ver trabajo</div>
+                    <div class="card-body">
+                        <h5 class="card-title">titulo del job</h5>
+                        Descripción: descripcion del job
+                        <br><br />
+                        <div class="subjob-container">
+                            <div class="subjob-title"> - titulo del sub</div>
+                            <div class="subjob-amount">
+                                <span class="dollar-sign">$</span>
+                                <span class="amount-value">total del sub</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="footer-content">
+                            Total:
+                            <span class="footer-amount">
+                                <h4>$ total del job</h4>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

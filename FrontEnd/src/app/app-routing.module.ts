@@ -8,6 +8,7 @@ import { CustomerDetailsComponent } from './components/customer-details/customer
 import { JobRegisterComponent } from './components/job-register/job-register.component';
 import { JobsListComponent } from './components/jobs-list/jobs-list.component';
 import { JobUpdateComponent } from './components/job-update/job-update.component';
+import { StatisticsJobsComponent } from './components/statistics-jobs/statistics-jobs.component';
 
 //Agregar las rutas de los componentes
 const routes: Routes = [
@@ -18,7 +19,8 @@ const routes: Routes = [
   {path: 'clientes/detalles/:id', component:CustomerDetailsComponent},
   {path: 'clientes/:id/agregar-trabajo', component:JobRegisterComponent},
   {path: 'trabajos', component:JobsListComponent},
-  {path: 'trabajos/actualizar/:id', component:JobUpdateComponent}
+  {path: 'trabajos/actualizar/:id', component:JobUpdateComponent},
+  {path: 'estadisticas/trabajos', component:StatisticsJobsComponent}
 ];
 
 @NgModule({

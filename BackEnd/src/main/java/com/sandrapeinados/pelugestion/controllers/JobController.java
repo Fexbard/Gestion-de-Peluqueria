@@ -47,6 +47,13 @@ public class JobController {
         return  ResponseEntity.ok(jobsList);
     }
 
+    @GetMapping("/forstatistics")
+    public ResponseEntity<?> getJobsPageds(@RequestParam int page, @RequestParam int size,
+                                           @RequestParam String from, @RequestParam String to) {
+        Page<Job> jobsList = jobService.findJobsBetweenDates(from, to, page, size);
+        return  ResponseEntity.ok(jobsList);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getJobById(@PathVariable Long id){
         Job job = jobService.getJobById(id);

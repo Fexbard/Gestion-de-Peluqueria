@@ -19,6 +19,7 @@ import { JobRegisterComponent } from './components/job-register/job-register.com
 import { JobsListComponent } from './components/jobs-list/jobs-list.component';
 import { JobUpdateComponent } from './components/job-update/job-update.component';
 import { CommonModule } from '@angular/common';
+import { StatisticsJobsComponent } from './components/statistics-jobs/statistics-jobs.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { CommonModule } from '@angular/common';
     CustomerDetailsComponent,
     JobRegisterComponent,
     JobsListComponent,
-    JobUpdateComponent
+    JobUpdateComponent,
+    StatisticsJobsComponent
   ],
   imports: [
     BrowserModule,
