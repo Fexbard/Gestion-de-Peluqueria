@@ -253,7 +253,13 @@ public class JobServiceImpl implements IJobService {
         } else {
             throw new BadRequestException("The 'From' date cannot be greater than the 'To' date.");
         }
-
-
+    }
+    @Override
+    public double getSumTotalJobsByDates(String dateFrom, String dateTo) {
+        LocalDateTime from = LocalDateTime.parse(dateFrom, formateador);
+        LocalDateTime to = LocalDateTime.parse(dateTo, formateador);
+        Optional<Double> sumOptional = jobRepo.getSumTotal(from, to);
+        double sum = sumOptional.orElse(0.0);
+        return sum;
     }
 }

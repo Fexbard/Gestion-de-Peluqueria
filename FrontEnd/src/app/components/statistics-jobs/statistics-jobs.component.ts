@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
 import { Job } from 'src/app/models/job';
+import { CustomerService } from 'src/app/services/customer.service';
 import { JobService } from 'src/app/services/job.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-statistics-jobs',
@@ -12,16 +14,24 @@ import { JobService } from 'src/app/services/job.service';
 export class StatisticsJobsComponent {
 
   customer: Customer = new Customer();
+  customersList: Customer[];
 
   job: Job;
   jobsList: Job[];
   dateFrom: string;
   dateTo: string;
-  size: number = 10;
+  size: number = 1;
   page: number = 0;
+  currentPage = 1;
+  totalPages = 1;
+  pageRange: number[] = [];
+  totalJobsCount = 0;
+  jobsPerPage = 1;
   isFirstPage: boolean = true;
+  selectedJob: Job | null = null;
+  sumOfPeriod:number;
 
-  constructor(private jobService: JobService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private customerService: CustomerService, private jobService: JobService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     const today = new Date();
@@ -30,31 +40,80 @@ export class StatisticsJobsComponent {
     this.dateFrom = this.formatDateAsString(firstDayOfMonth);
     this.dateTo = this.formatDateAsString(today);
     this.getJobsByDates();
-    // Obtener los trabajos de la primera página al inicializar el componente
-    this.getJobsByPage(this.page);
+
+    this.getCustomers();
   }
 
-  viewJobDetails(id: Number) {
-    this.jobService.getJobById(id).subscribe(
-      jobFound => {
-        this.job = jobFound;
-      },
-      error => console.log(error))
+  private getCustomers() {
+    this.customerService.getListCustomers().subscribe(
+      customerFound => {
+        this.customersList = customerFound;
+      });
+  }
+
+  getCustomerName(customerId: Number): string {
+    if (this.customersList && this.customersList.length > 0) {
+      const customer = this.customersList.find(c => c.id === customerId);
+      if (customer) {
+        return `${customer.name} ${customer.surname}`;
+      }
+    }
+    return '';
+  }
+  
+  
+
+  viewJobDetails(jobId: Number) {
+    const job = this.jobsList.find(j => j.idJob === jobId);
+    if (job) {
+      this.selectedJob = job;
+    }
   }
 
   getJobsByDates() {
     const formattedDateFrom = this.formatDate(this.dateFrom);
     const formattedDateTo = this.formatDate(this.dateTo);
-
+  
     this.jobService.getJobsFromDateToDate(this.page, this.size, formattedDateFrom, formattedDateTo).subscribe(
       jobsFound => {
         this.jobsList = jobsFound.content;
+        this.totalJobsCount = jobsFound.totalElements;
+        this.totalPages = Math.ceil(this.totalJobsCount / this.jobsPerPage);
+        this.pageRange = this.calculatePageRange(this.totalPages, this.currentPage);
+        this.isFirstPage = this.currentPage === 1; // Verificar si la página actual es la primera
       },
       error => {
         console.log(error);
-      });
+      }
+    );
+
+    this.jobService.getSumTotalByPeriod(formattedDateFrom,formattedDateTo).subscribe(
+      sum => { 
+        this.sumOfPeriod = sum;
+        console.log(this.sumOfPeriod)
+      },
+      error => console.log(error)
+    );
+  }
+  
+  goToPage(pageNumber: number) {
+    this.currentPage = pageNumber;
+    this.page = pageNumber - 1; // Ajustar el número de página para la solicitud a la API
+    this.getJobsByDates();
   }
 
+  goToPreviousPage() {
+    if (this.currentPage > 1) {
+      this.goToPage(this.currentPage - 1);
+    }
+  }
+
+  goToNextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.goToPage(this.currentPage + 1);
+    }
+  }
+  
   private formatDate(dateString: string): string {
     const parts = dateString.split('-');
     const day = parts[2];
@@ -74,23 +133,36 @@ export class StatisticsJobsComponent {
     return `${year}-${month}-${day}`;
   }
 
-  private getJobsByPage(pageNumber: number, fromDate?: string, toDate?: string): void {
-    if (fromDate && toDate) {
-      this.jobService.getJobsFromDateToDate(pageNumber, this.size, fromDate, toDate).subscribe(
-        jobsFound => {
-          this.jobsList = jobsFound.content;
-        },
-        error => {
-          console.log(error);
-        }
-      );
+  public formatDateForDisplay(dateString: string): string {
+    const formattedDate = moment(dateString, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY');
+    return formattedDate;
+  }
+  
+
+  calculatePageRange(totalPages: number, currentPage: number): number[] {
+    const range = [];
+    const maxVisiblePages = 5; // Define cuántos números de página se mostrarán en el rango visible
+  
+    let start = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let end = Math.min(start + maxVisiblePages - 1, totalPages);
+  
+    // Asegurarse de que el rango no se extienda más allá del número total de páginas
+    if (end - start < maxVisiblePages - 1) {
+      start = Math.max(1, end - maxVisiblePages + 1);
     }
+  
+    for (let i = start; i <= end; i++) {
+      range.push(i);
+    }
+  
+    return range;
   }
 
-  goToPage(pageNumber: number) {
-    this.page = pageNumber;
-    this.isFirstPage = (pageNumber === 1);
-    this.getJobsByPage(this.page, this.dateFrom, this.dateTo);
+  onPageSizeChange() {
+    this.page = 0; // Reiniciar la página a la primera al cambiar el tamaño de datos por página
+    this.currentPage = 1; // Reiniciar la página actual a la primera al cambiar el tamaño de datos por página
+    this.jobsPerPage = this.size; // Actualizar el número de trabajos por página
+    this.getJobsByDates();
   }
 
 }

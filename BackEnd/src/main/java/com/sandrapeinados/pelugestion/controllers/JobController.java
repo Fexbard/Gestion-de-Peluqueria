@@ -69,5 +69,9 @@ public class JobController {
         jobService.updateJob(job);
         return ResponseEntity.ok(job);
     }
-
+    @GetMapping("/totalByPeriod")
+    public ResponseEntity<?> getSumTotal(@RequestParam String from, @RequestParam String to){
+        double sum = jobService.getSumTotalJobsByDates(from,to);
+        return ResponseEntity.ok(sum);
+    }
 }
