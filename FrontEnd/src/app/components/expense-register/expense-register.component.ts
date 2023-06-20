@@ -1,0 +1,45 @@
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Expense } from 'src/app/models/expense';
+import { ExpenseService } from 'src/app/services/expense.service';
+import Swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
+
+
+
+@Component({
+  selector: 'app-expense-register',
+  templateUrl: './expense-register.component.html',
+  styleUrls: ['./expense-register.component.css'],
+  providers: [DatePipe]
+})
+export class ExpenseRegisterComponent {
+
+  expense:Expense = new Expense();
+
+
+  constructor(private router:Router, private expenseService:ExpenseService,private datePipe: DatePipe){}
+
+  addExpense(){
+    const partesFecha = this.expense.date.split('-');
+    this.expense.date = partesFecha[2] + '-' + partesFecha[1] + '-' + partesFecha[0] + ' 00:00:00';
+    this.expenseService.saveExpense(this.expense).subscribe(
+      response => {
+        this.expense = response;
+        const formattedDate = this.datePipe.transform(response.date, 'yyyy-MM-dd');
+        console.log(this.expense)
+        if (formattedDate) {
+          this.expense.date = formattedDate;
+          console.log(this.expense)
+        }
+        Swal.fire(
+          'Guardado!',
+          'Se registró correctamente el gasto!',
+          'success'
+        )
+      },
+      error => console.log(error)
+    );
+  }
+
+}

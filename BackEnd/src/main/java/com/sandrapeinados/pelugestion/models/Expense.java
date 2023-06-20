@@ -21,5 +21,5 @@ public class Expense {
     @NotBlank(message = "El monto no puede estar vacío")
     private double expenseAmount;
     @NotBlank(message = "La fecha no puede estar vacia")
-    private LocalDateTime date;
+    private String date;
 }

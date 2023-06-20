@@ -90,6 +90,8 @@
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
+  border-radius: 10px; /* Agregar bordes redondeados */
+  overflow: hidden; /* Ocultar cualquier contenido que sobresalga de los bordes redondeados */
 }
 
 .dataTable-table th,
@@ -114,7 +116,6 @@
 .dataTable-table tbody tr:hover {
   background-color: #d6f3ff; /* Color azul claro al pasar el mouse sobre la fila */
 }
-
 
 .dataTable-table th:nth-child(3),
 .dataTable-table td:nth-child(3) {
@@ -241,3 +242,32 @@
   font-size: 18px;
   color: #000;
 }
+.card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.card-header {
+  background-color: #4e8af9; /* Color azul lindo para el encabezado */
+  padding: 10px;
+  color: #fff; /* Texto blanco para el encabezado */
+}
+
+.card-footer {
+  background-color: #4e8af9; /* Color azul lindo para el encabezado */
+  padding: 10px;
+  color: #fff; /* Texto blanco para el encabezado */
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.footer-amount h4 {
+  margin: 0;
+  color: #4a0094; /* Texto blanco para el encabezado */
+}
+

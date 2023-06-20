@@ -1,0 +1,15 @@
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .footer-left {
+    flex: 1; /* Ocupa el espacio disponible */
+    text-align: left;
+  }
+  
+  .footer-right {
+    flex: 1; /* Ocupa el espacio disponible */
+    text-align: right;
+  }
+  

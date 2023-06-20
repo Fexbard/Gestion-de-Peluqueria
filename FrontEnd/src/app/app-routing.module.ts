@@ -9,6 +9,9 @@ import { JobRegisterComponent } from './components/job-register/job-register.com
 import { JobsListComponent } from './components/jobs-list/jobs-list.component';
 import { JobUpdateComponent } from './components/job-update/job-update.component';
 import { StatisticsJobsComponent } from './components/statistics-jobs/statistics-jobs.component';
+import { ExpenseRegisterComponent } from './components/expense-register/expense-register.component';
+import { ExpensesListComponent } from './components/expenses-list/expenses-list.component';
+import { UpdateExpenseComponent } from './components/update-expense/update-expense.component';
 
 //Agregar las rutas de los componentes
 const routes: Routes = [
@@ -20,7 +23,10 @@ const routes: Routes = [
   {path: 'clientes/:id/agregar-trabajo', component:JobRegisterComponent},
   {path: 'trabajos', component:JobsListComponent},
   {path: 'trabajos/actualizar/:id', component:JobUpdateComponent},
-  {path: 'estadisticas/trabajos', component:StatisticsJobsComponent}
+  {path: 'resultados/trabajos', component:StatisticsJobsComponent},
+  {path: 'gastos/agregar', component:ExpenseRegisterComponent},
+  {path: 'gastos', component:ExpensesListComponent},
+  {path: 'gastos/actualizar/:id', component:UpdateExpenseComponent}
 ];
 
 @NgModule({

@@ -3,6 +3,10 @@ package com.sandrapeinados.pelugestion.controllers;
 import com.sandrapeinados.pelugestion.models.Expense;
 import com.sandrapeinados.pelugestion.services.IExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,6 +36,14 @@ public class ExpenseController {
     public ResponseEntity<?> getAllExpenses(){
         List<Expense> expenseList = expenseService.getExpenses();
         return ResponseEntity.ok(expenseList);
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<?> getAllExpensesPaged(@RequestParam int size, @RequestParam int page){
+        Sort sort = Sort.by("date").descending();
+        Pageable pageable = PageRequest.of(page,size,sort);
+        Page<Expense> expensesList = expenseService.getExpensesPaged(pageable);
+        return ResponseEntity.ok(expensesList);
     }
 
     @GetMapping("/{id}")

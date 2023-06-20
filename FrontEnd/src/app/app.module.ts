@@ -20,6 +20,9 @@ import { JobsListComponent } from './components/jobs-list/jobs-list.component';
 import { JobUpdateComponent } from './components/job-update/job-update.component';
 import { CommonModule } from '@angular/common';
 import { StatisticsJobsComponent } from './components/statistics-jobs/statistics-jobs.component';
+import { ExpenseRegisterComponent } from './components/expense-register/expense-register.component';
+import { ExpensesListComponent } from './components/expenses-list/expenses-list.component';
+import { UpdateExpenseComponent } from './components/update-expense/update-expense.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { StatisticsJobsComponent } from './components/statistics-jobs/statistics
     JobRegisterComponent,
     JobsListComponent,
     JobUpdateComponent,
-    StatisticsJobsComponent
+    StatisticsJobsComponent,
+    ExpenseRegisterComponent,
+    ExpensesListComponent,
+    UpdateExpenseComponent
   ],
   imports: [
     BrowserModule,
