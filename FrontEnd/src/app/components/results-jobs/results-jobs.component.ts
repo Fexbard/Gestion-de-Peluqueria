@@ -8,10 +8,10 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'app-statistics-jobs',
-  templateUrl: './statistics-jobs.component.html',
-  styleUrls: ['./statistics-jobs.component.css']
+  templateUrl: './results-jobs.component.html',
+  styleUrls: ['./results-jobs.component.css']
 })
-export class StatisticsJobsComponent {
+export class ResultsJobsComponent {
 
   customer: Customer = new Customer();
   customersList: Customer[];
@@ -40,15 +40,6 @@ export class StatisticsJobsComponent {
     this.dateFrom = this.formatDateAsString(firstDayOfMonth);
     this.dateTo = this.formatDateAsString(today);
     this.getJobsByDates();
-
-    this.getCustomers();
-  }
-
-  private getCustomers() {
-    this.customerService.getListCustomers().subscribe(
-      customerFound => {
-        this.customersList = customerFound;
-      });
   }
 
   getCustomerName(customerId: Number): string {
@@ -61,8 +52,6 @@ export class StatisticsJobsComponent {
     return '';
   }
   
-  
-
   viewJobDetails(jobId: Number) {
     const job = this.jobsList.find(j => j.idJob === jobId);
     if (job) {

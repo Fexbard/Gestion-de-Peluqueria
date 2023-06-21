@@ -2,6 +2,7 @@ package com.sandrapeinados.pelugestion.services;
 
 import com.sandrapeinados.pelugestion.models.Customer;
 import com.sandrapeinados.pelugestion.models.Job;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -12,7 +13,6 @@ public interface ICustomerService {
     void deleteCustomer(Long id);
     Customer updateCustomer(Customer customer);
     Customer getCustomerDetails(Long id);
-
     List<Customer> getCustomersByName(String name);
-
+    Page<Customer> getCustomersPaged(int size, int page);
 }

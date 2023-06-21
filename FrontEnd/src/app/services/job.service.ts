@@ -33,7 +33,7 @@ export class JobService {
   }
 
   getJobsFromDateToDate(page: Number, size: Number, from: string, to: string): Observable<any> {
-    return this.httpClient.get(this.URL + '/forstatistics?page=' + page + '&size=' + size + '&from=' + from + '&to=' + to);
+    return this.httpClient.get(this.URL + '/results?page=' + page + '&size=' + size + '&from=' + from + '&to=' + to);
   }
 
   getSumTotalByPeriod(from:string, to:string): Observable<any>{

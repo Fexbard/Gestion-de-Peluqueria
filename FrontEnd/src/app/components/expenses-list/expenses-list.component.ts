@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Expense } from 'src/app/models/expense';
 import { ExpenseService } from 'src/app/services/expense.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-expenses-list',
@@ -26,16 +27,42 @@ export class ExpensesListComponent {
 
   constructor(private expenseService: ExpenseService, private router: Router) { }
 
-  ngOnInit(){
+  ngOnInit() {
+    this.fetchExpenses();
+  }
+  
+  fetchExpenses() {
     this.getExpenses();
   }
 
-  deleteExpense(id:Number){
-    
+  deleteExpense(id: Number) {
+    Swal.fire({
+      title: 'Estás seguro que quieres eliminar el gasto?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Sí, eliminar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.expenseService.deleteExpense(id).subscribe(
+          response => {
+            Swal.fire(
+              'Eliminado',
+              'El gasto ha sido eliminado.',
+              'success'
+            )
+            this.fetchExpenses();
+          },
+          error => console.log(error))
+        
+      }
+    })
   }
 
-  redirectToUpdateExpense(id:Number){
-    this.router.navigate(['gastos/actualizar',id]);
+  redirectToUpdateExpense(id: Number) {
+    this.router.navigate(['gastos/actualizar', id]);
   }
 
   getExpenses() {
@@ -47,25 +74,25 @@ export class ExpensesListComponent {
         this.pageRange = this.calculatePageRange(this.totalPages, this.currentPage);
         this.isFirstPage = this.currentPage === 1;
       },
-      error => {console.log(error)}
-      )
+      error => { console.log(error) }
+    )
   }
 
   calculatePageRange(totalPages: number, currentPage: number): number[] {
     const range = [];
     const maxVisiblePages = 5;
-  
+
     let start = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
     let end = Math.min(start + maxVisiblePages - 1, totalPages);
 
     if (end - start < maxVisiblePages - 1) {
       start = Math.max(1, end - maxVisiblePages + 1);
     }
-  
+
     for (let i = start; i <= end; i++) {
       range.push(i);
     }
-  
+
     return range;
   }
 

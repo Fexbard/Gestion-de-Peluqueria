@@ -24,5 +24,20 @@ export class ExpenseService {
     return this.httpClient.get(this.URL+'/'+id);
   }
   
+  updateExpense(expense:Expense):Observable<any>{
+    return this.httpClient.put(this.URL,expense);
+  }
+
+  deleteExpense(id:Number):Observable<any>{
+    return this.httpClient.delete(this.URL+'/'+id);
+  }
+
+  getExpensesFromDateToDate(page: Number, size: Number, from: string, to: string): Observable<any> {
+    return this.httpClient.get(this.URL + '/results?page=' + page + '&size=' + size + '&from=' + from + '&to=' + to);
+  }
+
+  getSumTotalByPeriod(from:string, to:string): Observable<any>{
+    return this.httpClient.get(this.URL+'/totalByPeriod?from='+from+'&to='+to)
+  }
 
 }

@@ -4,6 +4,7 @@ import com.sandrapeinados.pelugestion.models.Customer;
 import com.sandrapeinados.pelugestion.services.ICustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -26,13 +27,11 @@ public class CustomerController {
         List<Customer> customers = customerService.getCustomers();
         return ResponseEntity.ok(customers);
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable Long id){
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getCustomerById(@PathVariable Long id){
         Customer customerFound = customerService.getCustomerById(id);
@@ -61,5 +60,11 @@ public class CustomerController {
     public ResponseEntity<?> updateCustomer(@RequestBody Customer customer){
         customerService.updateCustomer(customer);
         return ResponseEntity.ok(customer);
+    }
+
+    @GetMapping("paged")
+    public ResponseEntity<?> getCustomersPaged(@RequestParam int size, @RequestParam int page){
+        Page<Customer> customers = customerService.getCustomersPaged(size, page);
+        return ResponseEntity.ok(customers);
     }
 }

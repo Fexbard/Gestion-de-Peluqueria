@@ -12,6 +12,7 @@ import com.sandrapeinados.pelugestion.persistence.repositories.ICustomerReposito
 import com.sandrapeinados.pelugestion.persistence.repositories.IJobRepository;
 import com.sandrapeinados.pelugestion.persistence.repositories.ISubJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
@@ -185,7 +186,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Override
     public List<Customer> getCustomersByName(String name) {
-        String nameToFind = "%"+name.trim().toUpperCase()+"%";
+        String nameToFind = "%" + name.trim().toUpperCase() + "%";
         List<CustomerEntity> customersFounds = customerRepo.getCustomersByName(nameToFind);
 
         List<Customer> customerList = new ArrayList<>();
@@ -199,6 +200,25 @@ public class CustomerServiceImpl implements ICustomerService {
             customerList.add(customer);
         }
         return customerList;
+    }
+
+    @Override
+    public Page<Customer> getCustomersPaged(int size, int page) {
+        Sort sort = Sort.by("name").ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<CustomerEntity> customersFounds = customerRepo.findAll(pageable);
+        List<Customer> customers = new ArrayList<>();
+
+        for (CustomerEntity c : customersFounds) {
+            Customer customer = new Customer();
+            customer.setId(c.getId());
+            customer.setName(c.getName());
+            customer.setSurname(c.getSurname());
+            customer.setCellphone(c.getCellphone());
+            customers.add(customer);
+        }
+        return new PageImpl<>(customers, customersFounds.getPageable(), customersFounds.getTotalElements());
     }
 }
 

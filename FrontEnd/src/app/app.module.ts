@@ -19,10 +19,11 @@ import { JobRegisterComponent } from './components/job-register/job-register.com
 import { JobsListComponent } from './components/jobs-list/jobs-list.component';
 import { JobUpdateComponent } from './components/job-update/job-update.component';
 import { CommonModule } from '@angular/common';
-import { StatisticsJobsComponent } from './components/statistics-jobs/statistics-jobs.component';
+import { ResultsJobsComponent } from './components/results-jobs/results-jobs.component';
 import { ExpenseRegisterComponent } from './components/expense-register/expense-register.component';
 import { ExpensesListComponent } from './components/expenses-list/expenses-list.component';
 import { UpdateExpenseComponent } from './components/update-expense/update-expense.component';
+import { ResultsExpensesComponent } from './components/results-expenses/results-expenses.component';
 
 @NgModule({
   declarations: [
@@ -39,10 +40,11 @@ import { UpdateExpenseComponent } from './components/update-expense/update-expen
     JobRegisterComponent,
     JobsListComponent,
     JobUpdateComponent,
-    StatisticsJobsComponent,
+    ResultsJobsComponent,
     ExpenseRegisterComponent,
     ExpensesListComponent,
-    UpdateExpenseComponent
+    UpdateExpenseComponent,
+    ResultsExpensesComponent
   ],
   imports: [
     BrowserModule,

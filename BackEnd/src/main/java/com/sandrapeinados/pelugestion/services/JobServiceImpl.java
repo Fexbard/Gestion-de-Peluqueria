@@ -221,7 +221,7 @@ public class JobServiceImpl implements IJobService {
         LocalDate fromDate = findFrom.toLocalDate();
         LocalDate toDate = findTo.toLocalDate();
 
-        Sort sort = Sort.by("date").ascending();
+        Sort sort = Sort.by("date").descending();
         Pageable pageable = PageRequest.of(page, size, sort);
 
         if (fromDate.isBefore(toDate) || fromDate.equals(toDate)) {

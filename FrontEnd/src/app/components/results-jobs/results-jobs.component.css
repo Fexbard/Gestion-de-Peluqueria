@@ -88,9 +88,8 @@
 
 .dataTable-table {
   width: 100%;
-  border-collapse: collapse;
   table-layout: fixed;
-  border-radius: 10px; /* Agregar bordes redondeados */
+  border-radius: 7px 7px 0 0; /* Actualiza el valor del border-radius */
   overflow: hidden; /* Ocultar cualquier contenido que sobresalga de los bordes redondeados */
 }
 

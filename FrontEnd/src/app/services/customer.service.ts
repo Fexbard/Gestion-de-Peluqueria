@@ -8,36 +8,36 @@ import { Customer } from '../models/customer';
 })
 export class CustomerService {
 
-private URL = "http://localhost:8080/customers";
+  private URL = "http://localhost:8080/customers";
 
-  constructor(private HttpClient : HttpClient) { }
+  constructor(private HttpClient: HttpClient) { }
 
-  public getCustomerById(id:Number):Observable<any> {
-    return this.HttpClient.get(this.URL+'/'+id);
+  public getCustomerById(id: Number): Observable<any> {
+    return this.HttpClient.get(this.URL + '/' + id);
   }
 
-  public getCustomerByName(name:String):Observable<any>{
-    return this.HttpClient.get(this.URL+'/find?name='+name)
+  public getCustomerByName(name: String): Observable<any> {
+    return this.HttpClient.get(this.URL + '/find?name=' + name)
   }
 
-  public getCustomerDetails(id:Number):Observable<any> {
-    return this.HttpClient.get(this.URL+'/details/'+id);
+  public getCustomerDetails(id: Number): Observable<any> {
+    return this.HttpClient.get(this.URL + '/details/' + id);
   }
 
-  public getListCustomers():Observable<any>{
-    return this.HttpClient.get(this.URL);
+  public getListCustomers(size: Number, page: Number): Observable<any> {
+    return this.HttpClient.get(this.URL + '/paged?size=' + size + '&page=' + page)
   }
 
-  public saveCustomer(customer:Customer):Observable<any>{
-    return this.HttpClient.post(this.URL,customer);
+  public saveCustomer(customer: Customer): Observable<any> {
+    return this.HttpClient.post(this.URL, customer);
   }
 
-  public updateCustomer(customer:Customer):Observable<any>{
-    return this.HttpClient.put(this.URL,customer);
+  public updateCustomer(customer: Customer): Observable<any> {
+    return this.HttpClient.put(this.URL, customer);
   }
 
-  public deleteCustomer(id:Number):Observable<any>{
-    return this.HttpClient.delete(this.URL+'/'+id);
+  public deleteCustomer(id: Number): Observable<any> {
+    return this.HttpClient.delete(this.URL + '/' + id);
   }
 
 }

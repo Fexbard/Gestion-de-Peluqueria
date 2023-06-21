@@ -15,6 +15,8 @@ public interface IExpenseService {
     void deleteExpense(Long id);
     Expense updateExpense(Expense expense);
     Page<Expense> getExpensesPaged(Pageable pageable);
+    Page<Expense> findExpensesBetweenDates(String desde, String hasta, int page, int size);
+    double getSumTotalJobsByDates(String dateFrom, String dateTo);
 
 
 }

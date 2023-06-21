@@ -3,7 +3,7 @@
         <h1>Gastos</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+                <li class="breadcrumb-item"><a routerLink="/">Inicio</a></li>
                 <li class="breadcrumb-item">Gastos</li>
                 <li class="breadcrumb-item active">Ver gastos</li>
             </ol>
@@ -44,9 +44,6 @@
                                         <th _ngcontent-dqv-c37="" scope="col" data-sortable="" style="width: 10;">
                                             <a href="#" class="dataTable-sorter">Fecha</a>
                                         </th>
-                                        <th _ngcontent-dqv-c37="" scope="col" data-sortable="" style="width: 19;">
-                                            <a href="#" class="dataTable-sorter">Cliente</a>
-                                        </th>
                                         <th _ngcontent-dqv-c37="" scope="col" data-sortable="" style="width: 20.8428%;">
                                             <a href="#" class="dataTable-sorter" id="acciones">Acciones</a>
                                         </th>
@@ -57,7 +54,6 @@
                                         <td _ngcontent-dqv-c37="">- {{expense.expenseTitle}}</td>
                                         <td _ngcontent-dqv-c37="">$ {{expense.expenseAmount}}</td>
                                         <td>{{ formatDateForDisplay(expense.date) }}</td>
-                                        <td _ngcontent-dqv-c37="">{{expense.id}}</td>
                                         <td _ngcontent-dqv-c37="">
                                             <div class="d-flex justify-content-center">
                                                 <button type="button" class="btn btn-light rounded-pill"

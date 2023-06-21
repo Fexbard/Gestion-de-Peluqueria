@@ -8,12 +8,12 @@ import { CustomerDetailsComponent } from './components/customer-details/customer
 import { JobRegisterComponent } from './components/job-register/job-register.component';
 import { JobsListComponent } from './components/jobs-list/jobs-list.component';
 import { JobUpdateComponent } from './components/job-update/job-update.component';
-import { StatisticsJobsComponent } from './components/statistics-jobs/statistics-jobs.component';
+import { ResultsJobsComponent} from './components/results-jobs/results-jobs.component';
 import { ExpenseRegisterComponent } from './components/expense-register/expense-register.component';
 import { ExpensesListComponent } from './components/expenses-list/expenses-list.component';
 import { UpdateExpenseComponent } from './components/update-expense/update-expense.component';
+import { ResultsExpensesComponent } from './components/results-expenses/results-expenses.component';
 
-//Agregar las rutas de los componentes
 const routes: Routes = [
   {path: '', component: DashboardComponent},
   {path: 'clientes', component: CustomersListComponent },
@@ -23,10 +23,11 @@ const routes: Routes = [
   {path: 'clientes/:id/agregar-trabajo', component:JobRegisterComponent},
   {path: 'trabajos', component:JobsListComponent},
   {path: 'trabajos/actualizar/:id', component:JobUpdateComponent},
-  {path: 'resultados/trabajos', component:StatisticsJobsComponent},
+  {path: 'resultados/trabajos', component:ResultsJobsComponent},
   {path: 'gastos/agregar', component:ExpenseRegisterComponent},
   {path: 'gastos', component:ExpensesListComponent},
-  {path: 'gastos/actualizar/:id', component:UpdateExpenseComponent}
+  {path: 'gastos/actualizar/:id', component:UpdateExpenseComponent},
+  {path: 'resultados/gastos', component:ResultsExpensesComponent}
 ];
 
 @NgModule({
