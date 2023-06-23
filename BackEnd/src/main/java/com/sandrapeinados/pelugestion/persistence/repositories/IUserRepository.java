@@ -1,12 +1,12 @@
 package com.sandrapeinados.pelugestion.persistence.repositories;
 
-import com.sandrapeinados.pelugestion.persistence.entities.Usuario;
+import com.sandrapeinados.pelugestion.persistence.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface IUserRepository extends JpaRepository<Usuario,Long> {
-    Optional<Usuario> findByUsername(String username);
-    Boolean existsByUsername(String username);
-
+@Repository
+public interface IUserRepository extends JpaRepository<User, Integer> {
+    Optional<User> findByEmail(String email);
 }

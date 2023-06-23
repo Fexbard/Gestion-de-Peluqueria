@@ -1,10 +1,11 @@
-package com.sandrapeinados.pelugestion.services;
+package com.sandrapeinados.pelugestion.services.impl;
 
 import com.sandrapeinados.pelugestion.exceptions.BadRequestException;
 import com.sandrapeinados.pelugestion.exceptions.ResourceNotFoundException;
 import com.sandrapeinados.pelugestion.models.Expense;
 import com.sandrapeinados.pelugestion.persistence.entities.ExpenseEntity;
 import com.sandrapeinados.pelugestion.persistence.repositories.IExpenseRepository;
+import com.sandrapeinados.pelugestion.services.IExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
