@@ -5,6 +5,7 @@ import { Customer } from 'src/app/models/customer';
 import { Job } from 'src/app/models/job';
 import { Subjob } from 'src/app/models/subjob';
 import { JobService } from 'src/app/services/job.service';
+import { LoginService } from 'src/app/services/login.service';
 
 
 @Component({
@@ -21,7 +22,13 @@ export class JobRegisterComponent {
   constructor(
     private jobService: JobService,
     private activatedRoute: ActivatedRoute,
-    private router: Router) { }
+    private router: Router, private loginService:LoginService) { }
+
+  ngOnInit() {
+    if (!this.loginService.isLoggedIn()) {
+      this.router.navigate(['login']);
+    }
+  }
 
 
   agregarItem() {
@@ -47,7 +54,7 @@ export class JobRegisterComponent {
       item.subJobAmount = null;
     }
   }
-  
+
 
   addJob() {
     this.job.idClient = this.activatedRoute.snapshot.params['id'];

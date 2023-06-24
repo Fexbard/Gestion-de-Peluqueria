@@ -1,9 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Expense } from 'src/app/models/expense';
 import { ExpenseService } from 'src/app/services/expense.service';
+import { LoginService } from 'src/app/services/login.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,10 +17,14 @@ export class UpdateExpenseComponent {
 
   expense: Expense = new Expense();
 
-  constructor(private expenseService: ExpenseService, private activatedRoute: ActivatedRoute, private datePipe: DatePipe) { }
+  constructor(private expenseService: ExpenseService, private activatedRoute: ActivatedRoute, private datePipe: DatePipe, private router:Router, private loginService:LoginService) { }
 
   ngOnInit() {
-    this.getExpenseById();
+    if(this.loginService.isLoggedIn()){
+      this.getExpenseById();
+    } else {
+      this.router.navigate(['login']);
+    }
   }
 
   updateExpense() {

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-customer-register',
@@ -12,18 +13,24 @@ export class CustomerRegisterComponent {
 
   customer: Customer = new Customer;
 
-  constructor(private customerService:CustomerService, private router: Router) { }
+  constructor(private customerService: CustomerService, private router: Router, private loginService: LoginService) { }
 
-  public registerCustomer(){
+  ngOnInit() {
+    if (!this.loginService.isLoggedIn()) {
+      this.router.navigate(['login']);
+    }
+  }
+
+  public registerCustomer() {
     console.log(this.customer);
     this.customerService.saveCustomer(this.customer).subscribe(
-      response=> {
+      response => {
         console.log("El cliente se ha registrado correctamente.", response);
       },
       error => {
         console.error("Ocurrió un error al registrar el cliente.", error);
-      }); 
-      this.router.navigate(['clientes']);
+      });
+    this.router.navigate(['clientes']);
   }
 
 }

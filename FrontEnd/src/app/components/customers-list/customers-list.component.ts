@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
+import { LoginService } from 'src/app/services/login.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -24,10 +25,15 @@ export class CustomersListComponent {
   isFirstPage: boolean = true;
   selectedCustomer: Customer | null = null;
 
-  constructor(private customerService: CustomerService, private router: Router) { }
+  constructor(private customerService: CustomerService, private router: Router, private loginService:LoginService) { }
 
   ngOnInit() {
-    this.getCustomers();
+    if(this.loginService.isLoggedIn()){
+      this.getCustomers();
+    } else {
+      this.router.navigate(['login']);
+    }
+    
   }
 
   private getCustomers() {

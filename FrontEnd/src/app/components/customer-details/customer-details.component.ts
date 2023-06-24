@@ -4,6 +4,7 @@ import { Customer } from 'src/app/models/customer';
 import { Job } from 'src/app/models/job';
 import { CustomerService } from 'src/app/services/customer.service';
 import { JobService } from 'src/app/services/job.service';
+import { LoginService } from 'src/app/services/login.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,18 +17,24 @@ export class CustomerDetailsComponent {
   customer: Customer = new Customer();
   job: Job = new Job();
 
-  constructor(private customerService: CustomerService, private jobService: JobService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private customerService: CustomerService, private jobService: JobService, private router: Router, private activatedRoute: ActivatedRoute, private loginService: LoginService) { }
 
   ngOnInit() {
-    this.customer.id = this.activatedRoute.snapshot.params['id'];
-    this.customerService.getCustomerDetails(this.customer.id).subscribe(
-      customerFound => {
-        this.customer.name = customerFound.name;
-        this.customer.surname = customerFound.surname;
-        this.customer.cellphone = customerFound.cellphone;
-      },
-      error => console.log(error))
-    this.getCustomer();
+
+    if (this.loginService.isLoggedIn()) {
+      this.customer.id = this.activatedRoute.snapshot.params['id'];
+      this.customerService.getCustomerDetails(this.customer.id).subscribe(
+        customerFound => {
+          this.customer.name = customerFound.name;
+          this.customer.surname = customerFound.surname;
+          this.customer.cellphone = customerFound.cellphone;
+        },
+        error => console.log(error))
+      this.getCustomer();
+    } else {
+      this.router.navigate(['login']);
+    }
+
   }
 
   private getCustomer() {

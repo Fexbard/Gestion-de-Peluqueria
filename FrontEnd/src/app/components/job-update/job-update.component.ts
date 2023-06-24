@@ -5,6 +5,7 @@ import { Customer } from 'src/app/models/customer';
 import { Job } from 'src/app/models/job';
 import { Subjob } from 'src/app/models/subjob';
 import { JobService } from 'src/app/services/job.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-job-update',
@@ -22,30 +23,36 @@ export class JobUpdateComponent {
     private jobService: JobService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private datePipe: DatePipe) { }
-    ngOnInit(){
+    private datePipe: DatePipe,
+    private loginService:LoginService) { }
+  ngOnInit() {
+    if (this.loginService.isLoggedIn()) {
       this.getJobById();
+    } else {
+      this.router.navigate(['login']);
     }
 
-    agregarItem() {
-      this.job.subJobs.push({ subJobTitle: '', subJobAmount: 0 });
-    }
-    
-    eliminarItem(index: number) {
-      this.job.subJobs.splice(index, 1);
-      this.calcularTotal();
-    }
+  }
 
-    calcularTotal(): number {
-      let total = 0;
-      if (Array.isArray(this.job.subJobs)) {
-        for (let item of this.job.subJobs) {
-          total += item.subJobAmount;
-        }
+  agregarItem() {
+    this.job.subJobs.push({ subJobTitle: '', subJobAmount: 0 });
+  }
+
+  eliminarItem(index: number) {
+    this.job.subJobs.splice(index, 1);
+    this.calcularTotal();
+  }
+
+  calcularTotal(): number {
+    let total = 0;
+    if (Array.isArray(this.job.subJobs)) {
+      for (let item of this.job.subJobs) {
+        total += item.subJobAmount;
       }
-      this.job.totalAmount = total;
-      return total;
     }
+    this.job.totalAmount = total;
+    return total;
+  }
 
   borrarCero(item: any) {
     if (item.subJobAmount === 0) {
@@ -55,7 +62,7 @@ export class JobUpdateComponent {
   getJobById() {
     this.job.idJob = this.activatedRoute.snapshot.params['id'];
     this.jobService.getJobById(this.job.idJob).subscribe(
-      jobFound => { 
+      jobFound => {
         this.job = jobFound;
         const formattedDate = this.datePipe.transform(jobFound.date, 'yyyy-MM-dd');
         if (formattedDate) {
@@ -69,7 +76,7 @@ export class JobUpdateComponent {
 
   updateJob() {
     const partesFecha = this.job.date.split('-');
-    this.job.date = partesFecha[2] + '-' + partesFecha[1] + '-' + partesFecha[0]+' 00:00:00';
+    this.job.date = partesFecha[2] + '-' + partesFecha[1] + '-' + partesFecha[0] + ' 00:00:00';
     this.jobService.updateJob(this.job).subscribe(
       response => { console.log("Se actualizó correctamente el trabajo al cliente", response) },
       error => { console.log(error) })

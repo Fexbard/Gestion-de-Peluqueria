@@ -6,13 +6,13 @@ import { CustomerRegisterComponent } from './components/customer-register/custom
 import { CustomerUpdateComponent } from './components/customer-update/customer-update.component';
 import { CustomerDetailsComponent } from './components/customer-details/customer-details.component';
 import { JobRegisterComponent } from './components/job-register/job-register.component';
-import { JobsListComponent } from './components/jobs-list/jobs-list.component';
 import { JobUpdateComponent } from './components/job-update/job-update.component';
 import { ResultsJobsComponent} from './components/results-jobs/results-jobs.component';
 import { ExpenseRegisterComponent } from './components/expense-register/expense-register.component';
 import { ExpensesListComponent } from './components/expenses-list/expenses-list.component';
 import { UpdateExpenseComponent } from './components/update-expense/update-expense.component';
 import { ResultsExpensesComponent } from './components/results-expenses/results-expenses.component';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
   {path: '', component: DashboardComponent},
@@ -21,13 +21,13 @@ const routes: Routes = [
   {path: 'clientes/actualizar/:id', component:CustomerUpdateComponent},
   {path: 'clientes/detalles/:id', component:CustomerDetailsComponent},
   {path: 'clientes/:id/agregar-trabajo', component:JobRegisterComponent},
-  {path: 'trabajos', component:JobsListComponent},
   {path: 'trabajos/actualizar/:id', component:JobUpdateComponent},
   {path: 'resultados/trabajos', component:ResultsJobsComponent},
   {path: 'gastos/agregar', component:ExpenseRegisterComponent},
   {path: 'gastos', component:ExpensesListComponent},
   {path: 'gastos/actualizar/:id', component:UpdateExpenseComponent},
-  {path: 'resultados/gastos', component:ResultsExpensesComponent}
+  {path: 'resultados/gastos', component:ResultsExpensesComponent},
+  {path: 'login', component:LoginComponent}
 ];
 
 @NgModule({

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Expense } from 'src/app/models/expense';
 import { ExpenseService } from 'src/app/services/expense.service';
+import { LoginService } from 'src/app/services/login.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -25,10 +26,14 @@ export class ExpensesListComponent {
   selectedExpense: Expense | null = null;
   sumOfPeriod: number;
 
-  constructor(private expenseService: ExpenseService, private router: Router) { }
+  constructor(private expenseService: ExpenseService, private router: Router, private loginService:LoginService) { }
 
   ngOnInit() {
-    this.fetchExpenses();
+    if(this.loginService.isLoggedIn()){
+      this.fetchExpenses();
+    } else {
+      this.router.navigate(['login']);
+    }
   }
   
   fetchExpenses() {

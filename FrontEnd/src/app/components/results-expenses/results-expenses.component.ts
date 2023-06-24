@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Expense } from 'src/app/models/expense';
 import { ExpenseService } from 'src/app/services/expense.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-results-expenses',
@@ -11,8 +12,8 @@ import { ExpenseService } from 'src/app/services/expense.service';
 })
 export class ResultsExpensesComponent {
 
-  expense:Expense = new Expense();
-  expensesList:Expense[];
+  expense: Expense = new Expense();
+  expensesList: Expense[];
   dateFrom: string;
   dateTo: string;
   size: number = 1;
@@ -24,21 +25,27 @@ export class ResultsExpensesComponent {
   expensesPerPage = 1;
   isFirstPage: boolean = true;
   selectedExpense: Expense | null = null;
-  sumOfPeriod:number;
+  sumOfPeriod: number;
 
-  constructor(private expenseService: ExpenseService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private expenseService: ExpenseService, private router: Router, private activatedRoute: ActivatedRoute, private loginService:LoginService) { }
 
   ngOnInit() {
-    const today = new Date();
-    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-    this.dateFrom = this.formatDateAsString(firstDayOfMonth);
-    this.dateTo = this.formatDateAsString(today);
-    this.getExpensesByDates();
+    if (this.loginService.isLoggedIn()) {
+      const today = new Date();
+      const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+      this.dateFrom = this.formatDateAsString(firstDayOfMonth);
+      this.dateTo = this.formatDateAsString(today);
+      this.getExpensesByDates();
+    } else {
+      this.router.navigate(['login']);
+    }
+
   }
 
   viewExpenseDetails(expenseId: Number) {
-    const expense = this.expensesList.find(e => e.id=== expenseId);
+    const expense = this.expensesList.find(e => e.id === expenseId);
     if (expense) {
       this.selectedExpense = expense;
     }
@@ -47,7 +54,7 @@ export class ResultsExpensesComponent {
   getExpensesByDates() {
     const formattedDateFrom = this.formatDate(this.dateFrom);
     const formattedDateTo = this.formatDate(this.dateTo);
-  
+
     this.expenseService.getExpensesFromDateToDate(this.page, this.size, formattedDateFrom, formattedDateTo).subscribe(
       expensesFound => {
         this.expensesList = expensesFound.content;
@@ -61,15 +68,15 @@ export class ResultsExpensesComponent {
       }
     );
 
-    this.expenseService.getSumTotalByPeriod(formattedDateFrom,formattedDateTo).subscribe(
-      sum => { 
+    this.expenseService.getSumTotalByPeriod(formattedDateFrom, formattedDateTo).subscribe(
+      sum => {
         this.sumOfPeriod = sum;
         console.log(this.sumOfPeriod)
       },
       error => console.log(error)
     );
   }
-  
+
   goToPage(pageNumber: number) {
     this.currentPage = pageNumber;
     this.page = pageNumber - 1;
@@ -87,7 +94,7 @@ export class ResultsExpensesComponent {
       this.goToPage(this.currentPage + 1);
     }
   }
-  
+
   private formatDate(dateString: string): string {
     const parts = dateString.split('-');
     const day = parts[2];
@@ -111,22 +118,22 @@ export class ResultsExpensesComponent {
     const formattedDate = moment(dateString, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY');
     return formattedDate;
   }
-  
+
 
   calculatePageRange(totalPages: number, currentPage: number): number[] {
     const range = [];
     const maxVisiblePages = 5;
-  
+
     let start = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
     let end = Math.min(start + maxVisiblePages - 1, totalPages);
     if (end - start < maxVisiblePages - 1) {
       start = Math.max(1, end - maxVisiblePages + 1);
     }
-  
+
     for (let i = start; i <= end; i++) {
       range.push(i);
     }
-  
+
     return range;
   }
 

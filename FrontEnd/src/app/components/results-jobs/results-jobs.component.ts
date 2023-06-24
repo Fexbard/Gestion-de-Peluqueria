@@ -5,6 +5,7 @@ import { Job } from 'src/app/models/job';
 import { CustomerService } from 'src/app/services/customer.service';
 import { JobService } from 'src/app/services/job.service';
 import * as moment from 'moment';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-statistics-jobs',
@@ -29,17 +30,21 @@ export class ResultsJobsComponent {
   jobsPerPage = 1;
   isFirstPage: boolean = true;
   selectedJob: Job | null = null;
-  sumOfPeriod:number;
+  sumOfPeriod: number;
 
-  constructor(private customerService: CustomerService, private jobService: JobService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private customerService: CustomerService, private jobService: JobService, private router: Router, private activatedRoute: ActivatedRoute, private loginService: LoginService) { }
 
   ngOnInit() {
-    const today = new Date();
-    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    if (this.loginService.isLoggedIn()) {
+      const today = new Date();
+      const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-    this.dateFrom = this.formatDateAsString(firstDayOfMonth);
-    this.dateTo = this.formatDateAsString(today);
-    this.getJobsByDates();
+      this.dateFrom = this.formatDateAsString(firstDayOfMonth);
+      this.dateTo = this.formatDateAsString(today);
+      this.getJobsByDates();
+    } else {
+      this.router.navigate(['login']);
+    }
   }
 
   getCustomerName(customerId: Number): string {
@@ -51,7 +56,7 @@ export class ResultsJobsComponent {
     }
     return '';
   }
-  
+
   viewJobDetails(jobId: Number) {
     const job = this.jobsList.find(j => j.idJob === jobId);
     if (job) {
@@ -62,7 +67,7 @@ export class ResultsJobsComponent {
   getJobsByDates() {
     const formattedDateFrom = this.formatDate(this.dateFrom);
     const formattedDateTo = this.formatDate(this.dateTo);
-  
+
     this.jobService.getJobsFromDateToDate(this.page, this.size, formattedDateFrom, formattedDateTo).subscribe(
       jobsFound => {
         this.jobsList = jobsFound.content;
@@ -76,15 +81,15 @@ export class ResultsJobsComponent {
       }
     );
 
-    this.jobService.getSumTotalByPeriod(formattedDateFrom,formattedDateTo).subscribe(
-      sum => { 
+    this.jobService.getSumTotalByPeriod(formattedDateFrom, formattedDateTo).subscribe(
+      sum => {
         this.sumOfPeriod = sum;
         console.log(this.sumOfPeriod)
       },
       error => console.log(error)
     );
   }
-  
+
   goToPage(pageNumber: number) {
     this.currentPage = pageNumber;
     this.page = pageNumber - 1; // Ajustar el número de página para la solicitud a la API
@@ -102,7 +107,7 @@ export class ResultsJobsComponent {
       this.goToPage(this.currentPage + 1);
     }
   }
-  
+
   private formatDate(dateString: string): string {
     const parts = dateString.split('-');
     const day = parts[2];
@@ -126,24 +131,24 @@ export class ResultsJobsComponent {
     const formattedDate = moment(dateString, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY');
     return formattedDate;
   }
-  
+
 
   calculatePageRange(totalPages: number, currentPage: number): number[] {
     const range = [];
     const maxVisiblePages = 5; // Define cuántos números de página se mostrarán en el rango visible
-  
+
     let start = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
     let end = Math.min(start + maxVisiblePages - 1, totalPages);
-  
+
     // Asegurarse de que el rango no se extienda más allá del número total de páginas
     if (end - start < maxVisiblePages - 1) {
       start = Math.max(1, end - maxVisiblePages + 1);
     }
-  
+
     for (let i = start; i <= end; i++) {
       range.push(i);
     }
-  
+
     return range;
   }
 

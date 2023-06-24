@@ -14,11 +14,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
+
     @Autowired
     private ICustomerService customerService;
 
     @GetMapping("/find")
     public ResponseEntity<?> getCustomersByName(@RequestParam String name) {
+
         List<Customer> customers = customerService.getCustomersByName(name);
         return ResponseEntity.ok(customers);
     }
