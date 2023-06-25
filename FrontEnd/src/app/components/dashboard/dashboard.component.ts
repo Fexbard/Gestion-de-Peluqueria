@@ -1,4 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,14 +9,17 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(private elementRef: ElementRef, private loginService:LoginService, private router:Router) { }
 
   ngOnInit(): void {
+    if (this.loginService.isLoggedIn()) {
+      var s = document.createElement("script");
+      s.type = "text/javascript";
+      s.src = "../assets/js/main.js";
+      this.elementRef.nativeElement.appendChild(s);
+    } else {
+      this.router.navigate(['login']);
+    }
 
-    var s = document.createElement("script");
-    s.type = "text/javascript";
-    s.src = "../assets/js/main.js";
-    this.elementRef.nativeElement.appendChild(s);
   }
-
 }

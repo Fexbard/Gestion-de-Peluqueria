@@ -15,13 +15,13 @@ export class ExpensesListComponent {
 
   expense: Expense = new Expense();
   expensesList: Expense[];
-  size: number = 1;
+  size: number = 10;
   page: number = 0;
   currentPage = 1;
   totalPages = 1;
   pageRange: number[] = [];
   totalExpensesCount = 0;
-  expensesPerPage = 1;
+  expensesPerPage = 10;
   isFirstPage: boolean = true;
   selectedExpense: Expense | null = null;
   sumOfPeriod: number;

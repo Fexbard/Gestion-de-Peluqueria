@@ -22,7 +22,7 @@ export class LoginComponent {
 
   isLoggedIn(){
     if(this.loginService.isLoggedIn()){
-      this.router.navigate(['clientes']);
+      this.router.navigate(['']);
     }
   }
 

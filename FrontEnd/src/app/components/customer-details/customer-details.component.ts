@@ -16,6 +16,15 @@ export class CustomerDetailsComponent {
 
   customer: Customer = new Customer();
   job: Job = new Job();
+  size: number = 10;
+  page: number = 0;
+  currentPage = 1;
+  totalPages = 1;
+  pageRange: number[] = [];
+  totalCustomersCount = 0;
+  customersPerPage = 10;
+  isFirstPage: boolean = true;
+  selectedCustomer: Customer | null = null;
 
   constructor(private customerService: CustomerService, private jobService: JobService, private router: Router, private activatedRoute: ActivatedRoute, private loginService: LoginService) { }
 
@@ -87,7 +96,23 @@ export class CustomerDetailsComponent {
     })
   }
 
+  goToPage(pageNumber: number) {
+    this.currentPage = pageNumber;
+    this.page = pageNumber - 1; // Ajustar el número de página para la solicitud a la API
+    //this.getCustomers();
+  }
 
+  goToPreviousPage() {
+    if (this.currentPage > 1) {
+      this.goToPage(this.currentPage - 1);
+    }
+  }
+
+  goToNextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.goToPage(this.currentPage + 1);
+    }
+  }
 
 }
 

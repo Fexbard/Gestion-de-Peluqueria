@@ -15,13 +15,13 @@ export class CustomersListComponent {
   customer: Customer;
   customersList: Customer[];
   nameCustomerToSearch: String;
-  size: number = 1;
+  size: number = 10;
   page: number = 0;
   currentPage = 1;
   totalPages = 1;
   pageRange: number[] = [];
   totalCustomersCount = 0;
-  customersPerPage = 1;
+  customersPerPage = 10;
   isFirstPage: boolean = true;
   selectedCustomer: Customer | null = null;
 

@@ -1,3 +1,17 @@
+#infoJob {
+  color: rgb(255, 255, 255);
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  border-radius: 50rem !important;
+  margin-right: 10px;
+  transition: background-color 0.3s;
+}
+
+#infoJob:hover {
+  background-color: #488ffb;
+  border-color: #488ffb;
+}
+
 .subjob-container {
   display: flex;
   justify-content: space-between;
@@ -89,15 +103,42 @@
 .dataTable-table {
   width: 100%;
   table-layout: fixed;
-  border-radius: 7px 7px 0 0; /* Actualiza el valor del border-radius */
-  overflow: hidden; /* Ocultar cualquier contenido que sobresalga de los bordes redondeados */
+  /* Elimina la separación entre celdas */
+  border: none;
+  /* Elimina los bordes de la tabla */
+  border-radius: 7px 7px 0 0;
+  /* Actualiza el valor del border-radius */
+  overflow: hidden;
+  /* Ocultar cualquier contenido que sobresalga de los bordes redondeados */
 }
 
 .dataTable-table th,
 .dataTable-table td {
-  border: 1px solid #ccc;
-  padding: 8px;
+  border-bottom: 1px solid #ccc;
 }
+
+.dataTable-table th:first-child,
+.dataTable-table td:first-child {
+  border-left: none;
+}
+
+.dataTable-table th:last-child,
+.dataTable-table td:last-child {
+  border-right: none;
+}
+
+.dataTable-table th::before,
+.dataTable-table td::after {
+  content: "";
+  display: block;
+  border-bottom: 1px solid #ccc;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: -1px;
+}
+
 
 .dataTable-table td {
   vertical-align: middle;
@@ -106,14 +147,17 @@
 
 .dataTable-table th {
   text-align: center;
-  vertical-align: middle;/* Centrar verticalmente el contenido */
-  margin-left: 5px;/* Agregar margen a la izquierda */
-  background-color: #4e8af9; /* Color azul lindo para el encabezado */
-  color: #fff; /* Texto blanco para el encabezado */
+  vertical-align: middle;
+  /* Centrar verticalmente el contenido */
+  margin-left: 5px;
+  /* Agregar margen a la izquierda */
+  background-color: rgb(216, 78, 216);
+  color: #ffffff;
+  /* Texto blanco para el encabezado */
 }
 
 .dataTable-table tbody tr:hover {
-  background-color: #d6f3ff; /* Color azul claro al pasar el mouse sobre la fila */
+  background-color: #fce4ff;
 }
 
 .dataTable-table th:nth-child(3),
@@ -239,8 +283,9 @@
 
 #iconInfo {
   font-size: 18px;
-  color: #000;
+  color: #ffffff;
 }
+
 .card {
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -248,15 +293,17 @@
 }
 
 .card-header {
-  background-color: #4e8af9; /* Color azul lindo para el encabezado */
+  background-color: #D59CFF;
   padding: 10px;
-  color: #fff; /* Texto blanco para el encabezado */
+  color: #fff;
+  /* Texto blanco para el encabezado */
 }
 
 .card-footer {
-  background-color: #4e8af9; /* Color azul lindo para el encabezado */
+  background-color: #D59CFF;
   padding: 10px;
-  color: #fff; /* Texto blanco para el encabezado */
+  color: #fff;
+  /* Texto blanco para el encabezado */
 }
 
 .footer-content {
@@ -267,6 +314,13 @@
 
 .footer-amount h4 {
   margin: 0;
-  color: #4a0094; /* Texto blanco para el encabezado */
+  color: #4a0094;
+}
+
+input[type="date"],
+.dataTable-table th a:hover,
+.pagination-container a.page-link:hover,
+.dataTable-selector:hover {
+  cursor: pointer;
 }
 

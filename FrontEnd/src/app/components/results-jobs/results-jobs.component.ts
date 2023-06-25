@@ -21,13 +21,13 @@ export class ResultsJobsComponent {
   jobsList: Job[];
   dateFrom: string;
   dateTo: string;
-  size: number = 1;
+  size: number = 10;
   page: number = 0;
   currentPage = 1;
   totalPages = 1;
   pageRange: number[] = [];
   totalJobsCount = 0;
-  jobsPerPage = 1;
+  jobsPerPage = 10;
   isFirstPage: boolean = true;
   selectedJob: Job | null = null;
   sumOfPeriod: number;
