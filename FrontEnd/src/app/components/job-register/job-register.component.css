@@ -13,3 +13,23 @@
     text-align: right;
   }
   
+  .text-center button:not(:last-child) {
+    margin-right: 10px;
+  }
+
+  #btnAgregar {
+    background-color: #653c8d;
+    border-color: #653c8d;
+  }
+  #btnAgregar:hover {
+    background-color: #502e6c;
+  }
+  .btn-secondary {
+    background-color: #bdbdbd;
+    border-color: #b9b9b9;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #cdcdcd;
+    border-color: #d2d2d2;
+  }

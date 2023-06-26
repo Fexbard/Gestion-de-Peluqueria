@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
 import { LoginService } from 'src/app/services/login.service';
@@ -28,12 +28,17 @@ export class CustomersListComponent {
   constructor(private customerService: CustomerService, private router: Router, private loginService:LoginService) { }
 
   ngOnInit() {
-    if(this.loginService.isLoggedIn()){
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd && event.urlAfterRedirects === '/registrar') {
+        this.getCustomers();
+      }
+    });
+  
+    if (this.loginService.isLoggedIn()) {
       this.getCustomers();
     } else {
       this.router.navigate(['login']);
     }
-    
   }
 
   private getCustomers() {
@@ -49,7 +54,7 @@ export class CustomersListComponent {
 
   public deleteCustomer(id: Number) {
     Swal.fire({
-      title: 'Estás seguro que quieres eliminar el cliente?',
+      title: 'Si elimina al cliente se eliminarán todos sus trabajos!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

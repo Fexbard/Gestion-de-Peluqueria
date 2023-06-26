@@ -70,7 +70,7 @@
                               <tr _ngcontent-dqv-c37="" *ngFor="let job of customer.jobs">
                                  <td _ngcontent-dqv-c37="">- {{job.jobTitle}}</td>
                                  <td _ngcontent-dqv-c37="">$ {{job.totalAmount}}</td>
-                                 <td _ngcontent-dqv-c37="">{{job.date}}</td>
+                                 <td _ngcontent-dqv-c37="" class="text-center">{{ formatDateForDisplay(job.date) }}</td>
                                  <td _ngcontent-dqv-c37="">
                                     <div class="d-flex justify-content-center">
                                        <button type="button" class="btn btn-light rounded-pill" id="editCustomer" (click)="redirectToUpdateJob(job.idJob)"><i
@@ -117,7 +117,7 @@
             <div class="card">
                <div class="card-header">Ver trabajo</div>
                <div class="card-body">
-                  <h5 class="card-title">{{job.jobTitle}}</h5>
+                  <h5 class="card-title" id="jobTitle">* {{job.jobTitle}} *</h5>
                   Descripción: {{job.jobDescription}}
                   <br><br />
                   <div *ngFor="let subJob of job.subJobs" class="subjob-container">

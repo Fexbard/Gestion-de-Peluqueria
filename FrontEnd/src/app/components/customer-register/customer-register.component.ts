@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
 import { LoginService } from 'src/app/services/login.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-customer-register',
@@ -22,15 +23,26 @@ export class CustomerRegisterComponent {
   }
 
   public registerCustomer() {
-    console.log(this.customer);
-    this.customerService.saveCustomer(this.customer).subscribe(
-      response => {
-        console.log("El cliente se ha registrado correctamente.", response);
-      },
-      error => {
-        console.error("Ocurrió un error al registrar el cliente.", error);
-      });
-    this.router.navigate(['clientes']);
+    Swal.fire({
+      title: 'Si continúas se guardará al cliente?',
+      showDenyButton: true,
+      confirmButtonText: 'Guardar',
+      denyButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.customerService.saveCustomer(this.customer).subscribe(
+          response => {
+            console.log("El cliente se ha registrado correctamente.", response);
+          },
+          error => {
+            console.error("Ocurrió un error al registrar el cliente.", error);
+          });
+        Swal.fire('Registrado!', '', 'success')
+        this.router.navigate(['clientes'],{ queryParams: { registroExitoso: true }});
+      } else if (result.isDenied) {
+        Swal.fire('El cliente no ha sido guardado', '', 'info')
+      }
+    })
   }
 
 }

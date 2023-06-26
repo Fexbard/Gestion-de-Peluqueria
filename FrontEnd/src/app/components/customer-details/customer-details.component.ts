@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import { Customer } from 'src/app/models/customer';
 import { Job } from 'src/app/models/job';
 import { CustomerService } from 'src/app/services/customer.service';
@@ -112,6 +113,11 @@ export class CustomerDetailsComponent {
     if (this.currentPage < this.totalPages) {
       this.goToPage(this.currentPage + 1);
     }
+  }
+
+  public formatDateForDisplay(dateString: string): string {
+    const formattedDate = moment(dateString, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY');
+    return formattedDate;
   }
 
 }

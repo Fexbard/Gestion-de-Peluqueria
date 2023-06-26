@@ -252,6 +252,7 @@ thead th[data-sortable=""] {
 .card-footer {
   background-color: #D59CFF;
   padding: 10px;
+  padding-top: 10px;
   color: #fff;
   /* Texto blanco para el encabezado */
 }
@@ -265,4 +266,20 @@ thead th[data-sortable=""] {
 .footer-amount h4 {
   margin: 0;
   color: #4a0094;
+}
+
+.footer-content,
+.card-header {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  /* Otros estilos para el encabezado de la tarjeta */
+}
+
+
+.footer-amount {
+  margin-left: 5px;
+  /* Otros estilos para el monto del pie de página */
+}
+
+#jobTitle {
+  text-align: center;
 }

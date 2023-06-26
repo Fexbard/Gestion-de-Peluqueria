@@ -68,15 +68,15 @@
               </div>
               <div class="footer-right">
                 <span class="footer-amount">
-                  <h4>{{ calcularTotal() }}</h4>
+                  <h4>$ {{ calcularTotal() }}</h4>
                 </span>
               </div>
             </div>
           </div>
         </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-primary" [disabled]="formAddJob.invalid" (click)="addJob()">Submit</button>
-          <button type="reset" class="btn btn-secondary">Reset</button>
+          <button type="submit" class="btn btn-primary" [disabled]="formAddJob.invalid" (click)="addJob()" id="btnAgregar">Agregar</button>
+          <button type="reset" class="btn btn-secondary">Limpiar</button>
         </div>
       </form>
     </div>

@@ -352,3 +352,19 @@
 .dataTable-selector:hover {
   cursor: pointer;
 }
+
+.footer-content,
+.card-header {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  /* Otros estilos para el encabezado de la tarjeta */
+}
+
+
+.footer-amount {
+  margin-left: 5px;
+  /* Otros estilos para el monto del pie de página */
+}
+
+#expenseTitle {
+  text-align: center;
+}
