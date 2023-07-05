@@ -11,7 +11,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private elementRef: ElementRef, private loginService:LoginService, private router:Router) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     if (this.loginService.isLoggedIn()) {
       var s = document.createElement("script");
       s.type = "text/javascript";

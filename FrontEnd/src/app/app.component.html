@@ -1,5 +1,6 @@
-<app-header *ngIf="isUserLoggedIn"></app-header>
-<app-sidebar *ngIf="isUserLoggedIn"></app-sidebar>
+<div *ngIf="isLoggedIn">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+</div>
 <router-outlet></router-outlet>
 <app-footer></app-footer>
-

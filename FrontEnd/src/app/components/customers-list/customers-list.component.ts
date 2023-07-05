@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
 import { LoginService } from 'src/app/services/login.service';
@@ -25,21 +25,22 @@ export class CustomersListComponent {
   isFirstPage: boolean = true;
   selectedCustomer: Customer | null = null;
 
-  constructor(private customerService: CustomerService, private router: Router, private loginService:LoginService) { }
+  constructor(private customerService: CustomerService, private router: Router, private loginService: LoginService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd && event.urlAfterRedirects === '/registrar') {
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['registroExitoso']) {
         this.getCustomers();
       }
     });
-  
+
     if (this.loginService.isLoggedIn()) {
       this.getCustomers();
     } else {
       this.router.navigate(['login']);
     }
   }
+
 
   private getCustomers() {
     this.customerService.getListCustomers(this.size, this.page).subscribe(

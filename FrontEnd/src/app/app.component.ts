@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from './services/login.service';
 
 @Component({
@@ -6,14 +6,19 @@ import { LoginService } from './services/login.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'FrontEnd';
-  isUserLoggedIn: boolean = true;
-  
+  isLoggedIn: boolean;
 
-  constructor(private loginService:LoginService){}
 
-  ngDoCheck() {
-    this.isUserLoggedIn = this.loginService.isLoggedIn();
+  constructor(private loginService: LoginService) { }
+
+  ngOnInit() {
+    if (this.loginService.isLoggedIn()) {
+      this.isLoggedIn = true;
+    } else {
+      this.isLoggedIn = false;
+    }
   }
 }
+

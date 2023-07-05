@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
@@ -22,6 +22,7 @@ export class CustomerRegisterComponent {
     }
   }
 
+
   public registerCustomer() {
     Swal.fire({
       title: 'Si continúas se guardará al cliente?',
@@ -38,7 +39,7 @@ export class CustomerRegisterComponent {
             console.error("Ocurrió un error al registrar el cliente.", error);
           });
         Swal.fire('Registrado!', '', 'success')
-        this.router.navigate(['clientes'],{ queryParams: { registroExitoso: true }});
+        this.router.navigate(['clientes'],{ queryParams:  { registroExitoso: true }});
       } else if (result.isDenied) {
         Swal.fire('El cliente no ha sido guardado', '', 'info')
       }
