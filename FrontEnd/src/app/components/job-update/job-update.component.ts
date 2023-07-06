@@ -6,6 +6,7 @@ import { Job } from 'src/app/models/job';
 import { Subjob } from 'src/app/models/subjob';
 import { JobService } from 'src/app/services/job.service';
 import { LoginService } from 'src/app/services/login.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-job-update',
@@ -24,7 +25,7 @@ export class JobUpdateComponent {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private datePipe: DatePipe,
-    private loginService:LoginService) { }
+    private loginService: LoginService) { }
   ngOnInit() {
     if (this.loginService.isLoggedIn()) {
       this.getJobById();
@@ -77,10 +78,23 @@ export class JobUpdateComponent {
   updateJob() {
     const partesFecha = this.job.date.split('-');
     this.job.date = partesFecha[2] + '-' + partesFecha[1] + '-' + partesFecha[0] + ' 00:00:00';
-    this.jobService.updateJob(this.job).subscribe(
-      response => { console.log("Se actualizó correctamente el trabajo al cliente", response) },
-      error => { console.log(error) })
-    this.router.navigate(['clientes']);
+    Swal.fire({
+      title: 'Desea actualizar el trabajo?',
+      showDenyButton: true,
+      confirmButtonText: 'Guardar',
+      denyButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.jobService.updateJob(this.job).subscribe(
+          response => { console.log("Se actualizó correctamente el trabajo al cliente", response) },
+          error => { console.log(error) })
+        this.router.navigate(['clientes']);
+        Swal.fire('Guardado!', '', 'success')
+        this.router.navigate(['clientes'], { queryParams: { registroExitoso: true } });
+      } else if (result.isDenied) {
+        Swal.fire('El trabajo NO ha sido actualizado', '', 'info')
+      }
+    })
   }
 
 }

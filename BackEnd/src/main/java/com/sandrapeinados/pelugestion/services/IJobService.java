@@ -17,4 +17,6 @@ public interface IJobService {
     Page<Job> getJobsPaged(Pageable pageable);
     Page<Job> findJobsBetweenDates(String desde, String hasta, int page, int size);
     double getSumTotalJobsByDates(String dateFrom, String dateTo);
+    Page<Job> getJobsPagedByCustomerId(Long id, Pageable pageable);
+
 }

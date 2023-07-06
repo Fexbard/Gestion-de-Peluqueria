@@ -74,4 +74,13 @@ public class JobController {
         double sum = jobService.getSumTotalJobsByDates(from,to);
         return ResponseEntity.ok(sum);
     }
+
+    @GetMapping("/jobs-customer/{id}")
+    public ResponseEntity<?> getJobsByCustomerId(@RequestParam int page, @RequestParam int size,
+                                                 @PathVariable Long id) {
+        Sort sort = Sort.by("date").descending();
+        Pageable pageable = PageRequest.of(page,size,sort);
+        Page<Job> jobsList = jobService.getJobsPagedByCustomerId(id,pageable);
+        return  ResponseEntity.ok(jobsList);
+    }
 }

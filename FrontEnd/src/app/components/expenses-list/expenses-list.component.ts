@@ -26,16 +26,16 @@ export class ExpensesListComponent {
   selectedExpense: Expense | null = null;
   sumOfPeriod: number;
 
-  constructor(private expenseService: ExpenseService, private router: Router, private loginService:LoginService) { }
+  constructor(private expenseService: ExpenseService, private router: Router, private loginService: LoginService) { }
 
   ngOnInit() {
-    if(this.loginService.isLoggedIn()){
+    if (this.loginService.isLoggedIn()) {
       this.fetchExpenses();
     } else {
       this.router.navigate(['login']);
     }
   }
-  
+
   fetchExpenses() {
     this.getExpenses();
   }
@@ -61,7 +61,7 @@ export class ExpensesListComponent {
             this.fetchExpenses();
           },
           error => console.log(error))
-        
+
       }
     })
   }

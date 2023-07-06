@@ -3,7 +3,7 @@
       <h1>Detalles</h1>
       <nav>
          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/">Inicio</a></li>
             <li class="breadcrumb-item">Clientes</li>
             <li class="breadcrumb-item active">Ver detalles</li>
          </ol>
@@ -40,7 +40,8 @@
                   <h5 _ngcontent-dqv-c37="" class="card-title">Trabajos realizados a {{customer.name}}</h5>
                   <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                      <div class="dataTable-top">
-                        <div class="dataTable-dropdown"><label><select class="dataTable-selector">
+                        <div class="dataTable-dropdown"><label><select class="dataTable-selector" [(ngModel)]="size" name="size"
+                           (change)="onPageSizeChange()">
                                  <option value="5">5</option>
                                  <option value="10" selected="">10</option>
                                  <option value="15">15</option>
@@ -67,7 +68,7 @@
                               </tr>
                            </thead>
                            <tbody _ngcontent-dqv-c37="">
-                              <tr _ngcontent-dqv-c37="" *ngFor="let job of customer.jobs">
+                              <tr _ngcontent-dqv-c37="" *ngFor="let job of jobsList">
                                  <td _ngcontent-dqv-c37="">- {{job.jobTitle}}</td>
                                  <td _ngcontent-dqv-c37="">$ {{job.totalAmount}}</td>
                                  <td _ngcontent-dqv-c37="" class="text-center">{{ formatDateForDisplay(job.date) }}</td>

@@ -29,4 +29,6 @@ public class Job {
     private double totalAmount;
     @NonNull
     private String date;
+    private String customerName;
+    private String customerSurname;
 }

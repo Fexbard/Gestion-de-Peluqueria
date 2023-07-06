@@ -32,7 +32,7 @@ export class ResultsJobsComponent {
   selectedJob: Job | null = null;
   sumOfPeriod: number;
 
-  constructor(private customerService: CustomerService, private jobService: JobService, private router: Router, private activatedRoute: ActivatedRoute, private loginService: LoginService) { }
+  constructor(private jobService: JobService, private router: Router, private activatedRoute: ActivatedRoute, private loginService: LoginService) { }
 
   ngOnInit() {
     if (this.loginService.isLoggedIn()) {
@@ -45,16 +45,6 @@ export class ResultsJobsComponent {
     } else {
       this.router.navigate(['login']);
     }
-  }
-
-  getCustomerName(customerId: Number): string {
-    if (this.customersList && this.customersList.length > 0) {
-      const customer = this.customersList.find(c => c.id === customerId);
-      if (customer) {
-        return `${customer.name} ${customer.surname}`;
-      }
-    }
-    return '';
   }
 
   viewJobDetails(jobId: Number) {

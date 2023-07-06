@@ -27,7 +27,7 @@ const routes: Routes = [
   {path: 'gastos', component:ExpensesListComponent},
   {path: 'gastos/actualizar/:id', component:UpdateExpenseComponent},
   {path: 'resultados/gastos', component:ResultsExpensesComponent},
-  {path: 'login', component:LoginComponent}
+  {path: 'login', component:LoginComponent},
 ];
 
 @NgModule({

@@ -16,16 +16,17 @@ import Swal from 'sweetalert2';
 export class CustomerDetailsComponent {
 
   customer: Customer = new Customer();
+  jobsList:Job[];
   job: Job = new Job();
   size: number = 10;
   page: number = 0;
   currentPage = 1;
   totalPages = 1;
   pageRange: number[] = [];
-  totalCustomersCount = 0;
-  customersPerPage = 10;
+  totalJobsCount = 0;
+  jobsPerPage = 10;
   isFirstPage: boolean = true;
-  selectedCustomer: Customer | null = null;
+  selectedJob: Customer | null = null;
 
   constructor(private customerService: CustomerService, private jobService: JobService, private router: Router, private activatedRoute: ActivatedRoute, private loginService: LoginService) { }
 
@@ -41,6 +42,7 @@ export class CustomerDetailsComponent {
         },
         error => console.log(error))
       this.getCustomer();
+      this.getJobsByCustomerId();
     } else {
       this.router.navigate(['login']);
     }
@@ -92,15 +94,36 @@ export class CustomerDetailsComponent {
             this.ngOnInit();
           },
           error => console.log(error))
-
       }
     })
+  }
+
+  getJobsByCustomerId(){
+    this.jobService.getJobsByCustomerId(this.size,this.page,this.customer.id).subscribe(
+      response => {
+        this.jobsList = response.content;
+        this.totalJobsCount = response.totalElements;
+        this.totalPages = Math.ceil(this.totalJobsCount / this.jobsPerPage);
+        this.pageRange = this.calculatePageRange(this.totalPages, this.currentPage);
+        this.isFirstPage = this.currentPage === 1;
+      },
+      error => {
+        console.log(error);
+      }
+    )
   }
 
   goToPage(pageNumber: number) {
     this.currentPage = pageNumber;
     this.page = pageNumber - 1; // Ajustar el número de página para la solicitud a la API
-    //this.getCustomers();
+    this.getJobsByCustomerId();
+  }
+
+  onPageSizeChange() {
+    this.page = 0; // Reiniciar la página a la primera al cambiar el tamaño de datos por página
+    this.currentPage = 1; // Reiniciar la página actual a la primera al cambiar el tamaño de datos por página
+    this.jobsPerPage = this.size; // Actualizar el número de trabajos por página
+    this.getJobsByCustomerId();
   }
 
   goToPreviousPage() {
@@ -113,6 +136,25 @@ export class CustomerDetailsComponent {
     if (this.currentPage < this.totalPages) {
       this.goToPage(this.currentPage + 1);
     }
+  }
+
+  calculatePageRange(totalPages: number, currentPage: number): number[] {
+    const range = [];
+    const maxVisiblePages = 5; // Define cuántos números de página se mostrarán en el rango visible
+
+    let start = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let end = Math.min(start + maxVisiblePages - 1, totalPages);
+
+    // Asegurarse de que el rango no se extienda más allá del número total de páginas
+    if (end - start < maxVisiblePages - 1) {
+      start = Math.max(1, end - maxVisiblePages + 1);
+    }
+
+    for (let i = start; i <= end; i++) {
+      range.push(i);
+    }
+
+    return range;
   }
 
   public formatDateForDisplay(dateString: string): string {

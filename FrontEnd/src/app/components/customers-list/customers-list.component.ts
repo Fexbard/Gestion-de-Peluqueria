@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
+import { CustomerUpdateService } from 'src/app/services/customer-update.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { LoginService } from 'src/app/services/login.service';
 import Swal from 'sweetalert2';
@@ -25,13 +26,18 @@ export class CustomersListComponent {
   isFirstPage: boolean = true;
   selectedCustomer: Customer | null = null;
 
-  constructor(private customerService: CustomerService, private router: Router, private loginService: LoginService, private activatedRoute: ActivatedRoute) { }
+  constructor(private customerService: CustomerService, private router: Router, private loginService: LoginService,
+    private activatedRoute: ActivatedRoute, private customerUpdateService: CustomerUpdateService) { }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
       if (params['registroExitoso']) {
         this.getCustomers();
       }
+    });
+
+    this.customerUpdateService.customerRegistered.subscribe(() => {
+      this.getCustomers();
     });
 
     if (this.loginService.isLoggedIn()) {

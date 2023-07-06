@@ -6,6 +6,7 @@ import { Job } from 'src/app/models/job';
 import { Subjob } from 'src/app/models/subjob';
 import { JobService } from 'src/app/services/job.service';
 import { LoginService } from 'src/app/services/login.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -61,9 +62,22 @@ export class JobRegisterComponent {
     this.job.subJobs = this.items;
     const partesFecha = this.job.date.split('-');
     this.job.date = partesFecha[2] + '-' + partesFecha[1] + '-' + partesFecha[0] + ' 00:00:00';
-    this.jobService.saveJob(this.job).subscribe(
-      response => { console.log("Se registró correctamente el trabajo al cliente", response) },
-      error => { console.log(error) })
-    this.router.navigate(['clientes']);
+    Swal.fire({
+      title: 'Desea guardar el trabajo realizado?',
+      showDenyButton: true,
+      confirmButtonText: 'Guardar',
+      denyButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.jobService.saveJob(this.job).subscribe(
+          response => { console.log("Se registró correctamente el trabajo al cliente", response) },
+          error => { console.log(error) })
+        this.router.navigate(['clientes']);
+        Swal.fire('Guardado!', '', 'success')
+        this.router.navigate(['clientes'],{ queryParams:  { registroExitoso: true }});
+      } else if (result.isDenied) {
+        Swal.fire('El trabajo no ha sido guardado', '', 'info')
+      }
+    })
   }
 }

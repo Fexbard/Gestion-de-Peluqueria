@@ -33,12 +33,7 @@ export class ExpenseRegisterComponent {
     this.expenseService.saveExpense(this.expense).subscribe(
       response => {
         this.expense = response;
-        const formattedDate = this.datePipe.transform(response.date, 'yyyy-MM-dd');
-        console.log(this.expense)
-        if (formattedDate) {
-          this.expense.date = formattedDate;
-          console.log(this.expense)
-        }
+        this.router.navigate(['gastos']);
         Swal.fire(
           'Guardado!',
           'Se registró correctamente el gasto!',

@@ -39,4 +39,8 @@ export class JobService {
   getSumTotalByPeriod(from:string, to:string): Observable<any>{
     return this.httpClient.get(this.URL+'/totalByPeriod?from='+from+'&to='+to)
   }
+
+  getJobsByCustomerId(size:number,page:number, id:Number): Observable<any>{
+    return this.httpClient.get(this.URL+'/jobs-customer/'+id+'?page='+page+'&size='+size)
+  }
 }

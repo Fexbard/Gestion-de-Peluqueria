@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
 import { LoginService } from 'src/app/services/login.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-customer-update',
@@ -32,13 +33,26 @@ export class CustomerUpdateComponent {
   }
 
   public updateCustomer() {
-    this.customerService.updateCustomer(this.customer).subscribe(
-      response => {
-        console.log("El cliente se ha actualizado correctamente.", response);
-      },
-      error => {
-        console.error("Ocurrió un error al actualizar el cliente.", error);
-      });
-    this.router.navigate(['clientes/detalles/' + this.customer.id]);
+    Swal.fire({
+      title: 'Desea actualizar el cliente?',
+      showDenyButton: true,
+      confirmButtonText: 'Guardar',
+      denyButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.customerService.updateCustomer(this.customer).subscribe(
+          response => {
+            console.log("El cliente se ha actualizado correctamente.", response);
+          },
+          error => {
+            console.error("Ocurrió un error al actualizar el cliente.", error);
+          });
+        this.router.navigate(['clientes/detalles/' + this.customer.id]);
+        Swal.fire('Guardado!', '', 'success')
+        this.router.navigate(['clientes'],{ queryParams:  { registroExitoso: true }});
+      } else if (result.isDenied) {
+        Swal.fire('El cliente NO ha sido actualizado', '', 'info')
+      }
+    })
   }
 }

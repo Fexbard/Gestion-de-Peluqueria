@@ -9,6 +9,8 @@ export class Job {
     totalAmount:number = 0;
     date:string;
     subJobs: Subjob[];
+    customerName:string;
+    customerSurname:string;
 
     constructor(){}
 

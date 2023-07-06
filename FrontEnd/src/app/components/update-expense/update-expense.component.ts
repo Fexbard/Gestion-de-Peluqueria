@@ -36,7 +36,7 @@ export class UpdateExpenseComponent {
         const formattedDate = moment(response.date, 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD');
         if (formattedDate) {
           this.expense.date = formattedDate;
-          console.log(this.expense);
+          this.router.navigate(['gastos']);
         }
         Swal.fire(
           'Actualizado!',

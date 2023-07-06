@@ -216,6 +216,52 @@ public class JobServiceImpl implements IJobService {
 
     @Override
     public Page<Job> findJobsBetweenDates(String from, String to, int page, int size) {
+        LocalDateTime findFrom = LocalDateTime.parse(from, formateador);
+        LocalDateTime findTo = LocalDateTime.parse(to, formateador);
+        LocalDate fromDate = findFrom.toLocalDate();
+        LocalDate toDate = findTo.toLocalDate();
+
+        Sort sort = Sort.by("date").descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        if (fromDate.isBefore(toDate) || fromDate.equals(toDate)) {
+            Page<JobEntity> jobsFounds = jobRepo.findJobsBetweenDates(findFrom, findTo, pageable);
+            List<Job> jobs = new ArrayList<>();
+            for (JobEntity jobEntity : jobsFounds.getContent()) {
+                Job job = new Job();
+                job.setIdClient(jobEntity.getCustomerEntity().getId());
+                job.setIdJob(jobEntity.getJobId());
+                job.setJobTitle(jobEntity.getJobTitle());
+                job.setJobDescription(jobEntity.getJobDescription());
+                job.setTotalAmount(jobEntity.getTotalAmount());
+                job.setDate(jobEntity.getDate().format(formateador));
+
+                // Obtener los nombres y apellidos del cliente
+                CustomerEntity customerEntity = jobEntity.getCustomerEntity();
+                job.setCustomerName(customerEntity.getName());
+                job.setCustomerSurname(customerEntity.getSurname());
+
+                List<SubJob> subJobsList = new ArrayList<>();
+                List<SubJobEntity> subJobsEntity = jobEntity.getSubJobs();
+
+                for (SubJobEntity subJobEntity : subJobsEntity) {
+                    SubJob subJob = new SubJob();
+                    subJob.setId(subJobEntity.getId());
+                    subJob.setSubJobTitle(subJobEntity.getSubJobTitle());
+                    subJob.setSubJobAmount(subJobEntity.getSubJobAmount());
+                    subJobsList.add(subJob);
+                }
+                job.setSubJobs(subJobsList);
+                jobs.add(job);
+            }
+            return new PageImpl<>(jobs, jobsFounds.getPageable(), jobsFounds.getTotalElements());
+        } else {
+            throw new BadRequestException("The 'From' date cannot be greater than the 'To' date.");
+        }
+    }
+
+   /* @Override
+    public Page<Job> findJobsBetweenDates(String from, String to, int page, int size) {
 
         LocalDateTime findFrom = LocalDateTime.parse(from, formateador);
         LocalDateTime findTo = LocalDateTime.parse(to, formateador);
@@ -254,7 +300,7 @@ public class JobServiceImpl implements IJobService {
         } else {
             throw new BadRequestException("The 'From' date cannot be greater than the 'To' date.");
         }
-    }
+    }*/
     @Override
     public double getSumTotalJobsByDates(String dateFrom, String dateTo) {
         LocalDateTime from = LocalDateTime.parse(dateFrom, formateador);
@@ -262,5 +308,34 @@ public class JobServiceImpl implements IJobService {
         Optional<Double> sumOptional = jobRepo.getSumTotal(from, to);
         double sum = sumOptional.orElse(0.0);
         return sum;
+    }
+
+    @Override
+    public Page<Job> getJobsPagedByCustomerId(Long id, Pageable pageable) {
+        Page<JobEntity> jobsFounds = jobRepo.findJobsByCustomerId(id, pageable);
+        List<Job> jobs = new ArrayList<>();
+        for (JobEntity jobEntity : jobsFounds.getContent()) {
+            Job job = new Job();
+            job.setIdClient(jobEntity.getCustomerEntity().getId());
+            job.setIdJob(jobEntity.getJobId());
+            job.setJobTitle(jobEntity.getJobTitle());
+            job.setJobDescription(jobEntity.getJobDescription());
+            job.setTotalAmount(jobEntity.getTotalAmount());
+            job.setDate(jobEntity.getDate().format(formateador));
+
+            List<SubJob> subJobsList = new ArrayList<>();
+            List<SubJobEntity> subJobsEntity = jobEntity.getSubJobs();
+
+            for (SubJobEntity subJobEntity : subJobsEntity) {
+                SubJob subJob = new SubJob();
+                subJob.setId(subJobEntity.getId());
+                subJob.setSubJobTitle(subJobEntity.getSubJobTitle());
+                subJob.setSubJobAmount(subJobEntity.getSubJobAmount());
+                subJobsList.add(subJob);
+            }
+            job.setSubJobs(subJobsList);
+            jobs.add(job);
+        }
+        return new PageImpl<>(jobs, jobsFounds.getPageable(), jobsFounds.getTotalElements());
     }
 }
