@@ -3,6 +3,7 @@ import { DOCUMENT } from '@angular/common'
 import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
@@ -20,11 +21,19 @@ export class HeaderComponent implements OnInit {
     this.document.body.classList.toggle('toggle-sidebar');
   }
 
-
   logout() {
-    this.app.isLoggedIn = false;
-    this.loginService.logout();
-    this.router.navigate(['login']);
+    Swal.fire({
+      title: 'Desea cerrar sesión y salir?',
+      showDenyButton: true,
+      denyButtonText: "Cancelar",
+      confirmButtonText: 'Si, salir!',
+      confirmButtonColor: '#3085d6',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.app.isLoggedIn = false;
+        this.loginService.logout();
+        this.router.navigate(['login']);
+      }
+    })
   }
-
 }

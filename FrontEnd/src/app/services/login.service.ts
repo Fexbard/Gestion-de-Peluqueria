@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { LoginData } from '../models/login-data';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { LoginData } from '../models/login-data';
 export class LoginService {
 
   private URL = "http://localhost:8080/auth"
-  private isValid: boolean;
+  logoutNotifier: Subject<boolean> = new Subject<boolean>();
 
   constructor(private httpClient: HttpClient) { }
 
@@ -21,39 +21,27 @@ export class LoginService {
     localStorage.setItem('token', token);
   }
 
-  /*public isLoggedIn() {
-    let tokenStr = localStorage.getItem('token');
-
-    this.isTokenValid().subscribe(
-      res => {
-        console.log(res)
-        this.isValid = this.isValid;
-        if (this.isValid == false || tokenStr == undefined || tokenStr == '' || tokenStr == null) {
-          localStorage.removeItem('token');
-        }
-      }
-    )
-    return this.isValid;
-  }*/
-
   public isLoggedIn() {
     let tokenStr = localStorage.getItem('token');
-    
     if (tokenStr == undefined || tokenStr == '' || tokenStr == null) {
       return false;
     } else {
+      this.httpClient.post(this.URL + '/validate-token', tokenStr).subscribe(
+        response => {
+          if (response === 'true') {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      )
       return true;
     }
   }
 
-  public isTokenValid() {
-    let tokenStr = localStorage.getItem('token');
-    return this.httpClient.post<boolean>(this.URL + '/validate-token', tokenStr)
-  }
-
   public logout() {
     localStorage.removeItem('token');
-    return true;
+    this.logoutNotifier.next(true);
   }
 
   public getToken() {

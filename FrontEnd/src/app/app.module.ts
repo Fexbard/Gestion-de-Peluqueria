@@ -52,7 +52,7 @@ import { JwtInterceptor } from './interceptor/jwt.interceptor';
     HttpClientModule,
     FormsModule,
     RouterModule,
-    CommonModule
+    CommonModule,
   ],
   providers: [  {
     provide: HTTP_INTERCEPTORS,

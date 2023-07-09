@@ -1,9 +1,8 @@
 package com.sandrapeinados.pelugestion.controllers;
 
-import com.sandrapeinados.pelugestion.exceptions.BadRequestException;
-import com.sandrapeinados.pelugestion.exceptions.ErrorResponse;
+import com.sandrapeinados.pelugestion.exceptions.*;
 import com.sandrapeinados.pelugestion.exceptions.NullPointerException;
-import com.sandrapeinados.pelugestion.exceptions.ResourceNotFoundException;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

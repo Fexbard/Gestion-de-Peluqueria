@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from './services/login.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,16 +10,36 @@ import { LoginService } from './services/login.service';
 export class AppComponent implements OnInit {
   title = 'FrontEnd';
   isLoggedIn: boolean;
+  logoutSubscription: Subscription;
+
 
 
   constructor(private loginService: LoginService) { }
 
   ngOnInit() {
-    if (this.loginService.isLoggedIn()) {
-      this.isLoggedIn = true;
-    } else {
-      this.isLoggedIn = false;
-    }
+    this.isLoggedIn = this.loginService.isLoggedIn();
+  
+    this.logoutSubscription = this.loginService.logoutNotifier.subscribe((logout) => {
+      if (logout) {
+        this.isLoggedIn = false;
+      }
+    });
+  }
+  
+  ngOnDestroy() {
+    this.logoutSubscription.unsubscribe();
   }
 }
 
+
+/*intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = localStorage.getItem('token');
+    let request = req;
+
+    if (token) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    }*/ 
